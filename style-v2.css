@@ -1,22 +1,30 @@
-/* Base layout */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #014421, #0f5e61);
-  color: #000;
-  min-height: 100vh;
+:root {
+  --bg-tan: #f5f2eb;
+  --tan-light: #e4dcca;
+  --tan-deep: #d2c6b2;
+  --green-fern: #6e8b6f;
+  --green-moss: #4c5c4d;
+  --text-soft: #2f2f2f;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100vh;
   margin: 0;
-  padding: 1rem;
+  padding: 0;
+  background-color: var(--bg-tan);
+  font-family: 'Quicksand', sans-serif;
+  color: var(--text-soft);
 }
 
-.hoof-logo {
-  display: block;
-  margin: 0 auto 0.5rem auto;
-  height: 60px;
-}
-
-/* Card container */
+/* Main card layout */
 main {
-  background: #07ee36;
+  background: var(--tan-light);
+  border: 2px solid var(--tan-deep);
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   padding: 2rem;
@@ -25,20 +33,30 @@ main {
   text-align: center;
 }
 
+/* Typography and layout tweaks */
+.hoof-logo {
+  display: block;
+  margin: 0 auto 0.5rem auto;
+  height: 60px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #d4880d;
+}
+
 .headline {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
   color: #d2f1e1;
-  text-align: center;
 }
 
 .description {
   font-size: 1rem;
   max-width: 360px;
-  text-align: center;
   margin: 1rem auto;
   line-height: 1.4;
-  color: #000;
 }
 
 .streak-counter {
@@ -47,39 +65,45 @@ main {
   color: #222;
 }
 
+/* Action button */
 .increment-btn {
   font-size: 1.1rem;
   margin-top: 0.75rem;
   padding: 1rem 2rem;
-  background-color: #3a7f6e;
+  background-color: var(--green-fern);
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
 }
 
+.increment-btn:hover {
+  background-color: var(--green-moss);
+}
+
+/* Footer */
 .footer-tagline {
   text-align: center;
   font-size: 1rem;
-  color: #bbb;
+  color: var(--green-moss);
   margin-top: auto;
   padding-bottom: 1rem;
 }
 
-/* Title */
-h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: #d4880d;
-}
-
-/* Date display */
+/* Date and message */
 #date {
   font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
-/* Action list styling */
+#message {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2f4858;
+}
+
+/* Action list */
 #action-list {
   list-style: none;
   padding: 0;
@@ -99,23 +123,13 @@ h1 {
   background: #9df3c4;
 }
 
-/* Message styling */
-#message {
-  margin-top: 1rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #2f4858;
-}
-
+/* Mobile responsiveness */
 @media (max-width: 600px) {
   body {
     padding: 1.5rem 1rem;
-    width: 100%;
-    border-radius: 0;
-    box-shadow: none;
     font-size: 1rem;
   }
-  
+
   .headline,
   .streak-counter,
   #date {
@@ -127,43 +141,3 @@ h1 {
     padding: 1rem 1.5rem;
   }
 }
-  /* 🌾 One Small Hoof Trail Theme Overrides */
-:root {
-  --bg-tan: #f5f2eb;
-  --tan-light: #e4dcca;
-  --tan-deep: #d2c6b2;
-  --green-fern: #6e8b6f;
-  --green-moss: #4c5c4d;
-  --text-soft: #2f2f2f;
-}
-
-/* Optional: override main layout colors using new vars */
-html, body {
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background: var(--bg-tan);
-  font-family: 'Quicksand', sans-serif;
-  color: var(--text-soft);
-}
-
-main {
-  background: var(--tan-light);
-  border: 2px solid var(--tan-deep);
-}
-
-.increment-btn {
-  background-color: var(--green-fern);
-  color: #fff;
-}
-
-.increment-btn:hover {
-  background-color: var(--green-moss);
-}
-
-.footer-tagline {
-  color: var(--green-moss);
-};
