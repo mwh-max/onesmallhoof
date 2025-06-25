@@ -6,10 +6,6 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .hoof-logo {
@@ -144,6 +140,10 @@ h1 {
 /* Optional: override main layout colors using new vars */
 body {
   background: var(--bg-tan);
+  font-family: 'Quicksand', sans-serif;
+  html, body {
+  height: 100vh;
+}
   color: var(--text-soft);
 }
 
