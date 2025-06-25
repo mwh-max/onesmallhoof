@@ -25,6 +25,7 @@ html, body {
 main {
   background: var(--tan-light);
   border: 2px solid var(--tan-deep);
+  box-sizing: border-box;
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   padding: 2rem;
