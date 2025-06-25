@@ -121,4 +121,38 @@ h1 {
     font-size: 1.1rem;
     padding: 1rem 1.5rem;
   }
+
+  /* 🌾 One Small Hoof Trail Theme Overrides */
+:root {
+  --bg-tan: #f5f2eb;
+  --tan-light: #e4dcca;
+  --tan-deep: #d2c6b2;
+  --green-fern: #6e8b6f;
+  --green-moss: #4c5c4d;
+  --text-soft: #2f2f2f;
+}
+
+/* Optional: override main layout colors using new vars */
+body {
+  background: var(--bg-tan);
+  color: var(--text-soft);
+}
+
+main {
+  background: var(--tan-light);
+  border: 2px solid var(--tan-deep);
+}
+
+.increment-btn {
+  background-color: var(--green-fern);
+  color: #fff;
+}
+
+.increment-btn:hover {
+  background-color: var(--green-moss);
+}
+
+.footer-tagline {
+  color: var(--green-moss);
+}
 }
