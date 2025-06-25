@@ -113,15 +113,24 @@ h1 {
 
 @media (max-width: 600px) {
   body {
-    padding: 1rem;
+    padding: 1.5rem 1rem;
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
     font-size: 1rem;
+  }
+  
+  .headline,
+  .streak-counter,
+  #date {
+    font-size: 1.25rem;
   }
 
   #increment-btn {
     font-size: 1.1rem;
     padding: 1rem 1.5rem;
   }
-
+}
   /* 🌾 One Small Hoof Trail Theme Overrides */
 :root {
   --bg-tan: #f5f2eb;
@@ -154,5 +163,4 @@ main {
 
 .footer-tagline {
   color: var(--green-moss);
-}
-}
+};
