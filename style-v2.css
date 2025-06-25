@@ -138,12 +138,15 @@ h1 {
 }
 
 /* Optional: override main layout colors using new vars */
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: var(--bg-tan);
   font-family: 'Quicksand', sans-serif;
-  html, body {
-  height: 100vh;
-}
   color: var(--text-soft);
 }
 
