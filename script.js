@@ -17,10 +17,7 @@ function calculateStreak(savedEntry, todayDate) {
   return isYesterday ? (savedEntry.streak || 1) + 1 : 1;
 }
 
-if (saved && saved.date === todayKey) {
-  message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
-} else {
-  const actions = [
+const actions = [
     "Bring your own bag",
     "Turn off unused lights",
     "Use a reusable water bottle",
@@ -28,6 +25,10 @@ if (saved && saved.date === todayKey) {
     "Walk instead of drive"
   ];
 
+if (saved && saved.date === todayKey) {
+  message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
+} else {
+  
   actions.forEach(action => {
     const listItem = document.createElement("li");
     listItem.textContent = action;
