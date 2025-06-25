@@ -1,0 +1,124 @@
+/* Base layout */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #014421, #0f5e61);
+  color: #000;
+  min-height: 100vh;
+  margin: 0;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hoof-logo {
+  display: block;
+  margin: 0 auto 0.5rem auto;
+  height: 60px;
+}
+
+/* Card container */
+main {
+  background: #07ee36;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 2rem;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.headline {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #d2f1e1;
+  text-align: center;
+}
+
+.description {
+  font-size: 1rem;
+  max-width: 360px;
+  text-align: center;
+  margin: 1rem auto;
+  line-height: 1.4;
+  color: #000;
+}
+
+.streak-counter {
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+  color: #222;
+}
+
+.increment-btn {
+  font-size: 1.1rem;
+  margin-top: 0.75rem;
+  padding: 1rem 2rem;
+  background-color: #3a7f6e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.footer-tagline {
+  text-align: center;
+  font-size: 1rem;
+  color: #bbb;
+  margin-top: auto;
+  padding-bottom: 1rem;
+}
+
+/* Title */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #d4880d;
+}
+
+/* Date display */
+#date {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Action list styling */
+#action-list {
+  list-style: none;
+  padding: 0;
+}
+
+#action-list li {
+  background: #b5ead7;
+  margin: 0.5rem auto;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#action-list li:hover {
+  background: #9df3c4;
+}
+
+/* Message styling */
+#message {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2f4858;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  #increment-btn {
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+  }
+}
