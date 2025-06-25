@@ -12,7 +12,7 @@ Responsive web project built with HTML, CSS, and JavaScript. Focuses on layout c
 Clone and open:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/onesmallhoof.git
+git clone https://github.com/mwh-max/onesmallhoof.git
 cd onesmallhoof
 
 ## Notes
