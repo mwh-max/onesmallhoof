@@ -74,3 +74,71 @@ incrementBtn.addEventListener("click", () => {
   countDisplay.textContent = count;
   localStorage.setItem("count", count);
 });
+
+function addCustomTask() {
+  const input = document.getElementById("customTask");
+  const task = input.value.trim();
+  if (task) {
+    CustomTaskManager.add(task);
+    input.value = "";
+  }
+}
+
+function loadCustomTasks() {
+  const list = document.getElementById("userTaskList");
+  const saved = JSON.parse(localStorage.getItem("customTasks")) || [];
+
+  saved.forEach(entry => {
+    const li = document.createElement("li");
+    li.textContent = `${entry.text} — ${entry.date}`;
+    list.appendChild(li);
+  });
+}
+
+const CustomTaskManager = {
+  storageKey: "customTasks",
+
+  add(task) {
+    const date = new Date().toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric"
+    });
+    const entry = { text: task, date };
+
+    const saved = JSON.parse(localStorage.getItem(this.storageKey)) || [];
+    saved.push(entry);
+    localStorage.setItem(this.storageKey, JSON.stringify(saved));
+
+    this.render(entry);
+  },
+
+  render(entry) {
+    const list = document.getElementById("userTaskList");
+    const li = document.createElement("li");
+    li.textContent = `${entry.text} — ${entry.date}`;
+    list.appendChild(li);
+  },
+
+  load() {
+    const saved = JSON.parse(localStorage.getItem(this.storageKey)) || [];
+    saved.forEach(entry => this.render(entry));
+  },
+
+  clear() {
+    if (confirm("Are you sure you want to clear all custom tasks?")) {
+      localStorage.removeItem(this.storageKey);
+      document.getElementById("userTaskList").innerHTML = "";
+    }
+  }
+};
+
+
+window.onload = () => {
+  CustomTaskManager.load();
+  // Other startup logic here
+};
+
+function clearCustomTasks() {
+  CustomTaskManager.clear();
+}

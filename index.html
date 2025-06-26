@@ -20,6 +20,14 @@
 <p id="date"></p>
     <ul id="action-list"></ul>
     <p id="message"></p>
+<section class="user-tasks">
+  <h3>Add Your Own Step</h3>
+  <input type="text" id="customTask" placeholder="e.g. Pick up litter near the creek" />
+  <button onclick="addCustomTask()">Add Task</button>
+  <ul id="userTaskList"></ul>
+</section>
+<button onclick="clearCustomTasks()">Clear All Tasks</button>
+<a href="index.html" class="back-home">← Return to Pasture</a>
   </main>
   <script src="script.js"></script>
 </body>

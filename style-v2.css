@@ -124,6 +124,49 @@ h1 {
   background: #9df3c4;
 }
 
+.back-home {
+  display: inline-block;
+  margin-top: 2rem;
+  color: var(--forest-green);
+  background-color: var(--clay);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+
+.user-tasks {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background-color: var(--linen);
+  border-left: 5px solid var(--moss);
+  border-radius: 8px;
+}
+
+.user-tasks input {
+  padding: 0.5rem;
+  width: 70%;
+  margin-right: 0.5rem;
+  border: 2px solid var(--moss);
+  border-radius: 6px;
+}
+
+.user-tasks button {
+  padding: 0.5rem 1rem;
+  background-color: var(--forest-green);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.back-home:hover {
+  background-color: var(--accent);
+  color: #fff;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 600px) {
   body {
