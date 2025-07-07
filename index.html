@@ -39,13 +39,13 @@
     </section>
 
     <p id="count">Total actions: 0</p>
-    <button id="add-count">Add 1 action</button>
+    <button id="add-count">Add Your Action</button>
 
 
     <!-- 🧹 Task Clear and Navigation -->
     <section class="task-controls">
       <nav>
-        <a href="index.html" class="back-home">← Return to Pasture</a>
+        <a href="index.html" class="back-home" onclick="localStorage.removeItem('ecoAction'); location.reload()">← Home</a>
       </nav>
     </section>
 

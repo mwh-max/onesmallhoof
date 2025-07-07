@@ -61,6 +61,22 @@ main {
   margin-bottom: 0.5rem;
 }
 
+#add-count {
+  background-color: #4caF50;
+  color: white;
+  font-weight: 600;
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+#add-count:hover {
+  background-color: #388e3c;
+}
+
 /* ✏️ User Input */
 .user-tasks input[type="text"] {
   width: 100%;

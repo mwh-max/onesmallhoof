@@ -144,12 +144,22 @@ function setupCustomTaskUI() {
     return;
   }
 
+  const savedValue = localStorage.getItem('customTaskDraft');
+  if (savedValue) {
+    input.value = savedValue;
+  }
+
+  input.addEventListener('input', () => {
+    localStorage.setItem('customTaskDraft', input.value);
+  });
+
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       const value = input.value.trim();
       if (value) {
         CustomTaskManager.add(value);
         input.value = '';
+        localStorage.removeItem('customTaskDraft');
       }
     }
   });
