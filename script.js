@@ -1,122 +1,125 @@
-// Force redeploy
+function calculateStreak(previous, today) {
+  if (!previous || !previous.date) {
+    return 1;
+  }
 
-const dateElement = document.getElementById("date");
-const today = new Date().toDateString();
-dateElement.textContent = `Today is ${today}`;
-const todayKey = today;
-const saved = JSON.parse(localStorage.getItem("ecoAction"));
-const actionList = document.getElementById("action-list");
-const message = document.getElementById("message");
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate()-1);
 
-function calculateStreak(savedEntry, todayDate) {
-  if (!savedEntry || !savedEntry.date) return 1;
-
-  const yesterday = new Date(todayDate);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const savedDate = new Date(savedEntry.date);
-  const isYesterday = savedDate.toDateString() === yesterday.toDateString();
-  return isYesterday ? (savedEntry.streak || 1) + 1 : 1;
+  const savedDate = new Date(previous.date);
+  return savedDate.toDateString() === yesterday.toDateString() ? (previous.streak || 1) + 1 : 1;
 }
 
-const actions = [
-    "Bring your own bag",
-    "Turn off unused lights",
-    "Use a reusable water bottle",
-    "Compost food scraps",
-    "Walk instead of drive"
+
+function setupDateDisplay() {
+  console.log('setupDateDisplay is running');
+  const dateElement = document.getElementById('date');
+  if (!dateElement) { return; 
+  }
+
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  dateElement.textContent = `Today is ${today}`;
+}
+
+function setupEcoActionTracker() {
+  const ecoActions = [
+    'Bring your own bag',
+    'Turn off unused lights',
+    'Use a reusable water bottle',
+    'Compost food scraps',
+    'Walk instead of drive'
   ];
 
-if (saved && saved.date === todayKey) {
-  message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
-} else {
-  
-  actions.forEach(action => {
-    const listItem = document.createElement("li");
-    listItem.textContent = action;
-    listItem.style.cursor = "pointer";
+  const actionList = document.getElementById('action-list');
+  const message = document.getElementById('message');
+  if (!actionList || !message) {
+    return;
+  }
 
-    listItem.addEventListener("click", () => {
+  const todayKey = new Date().toDateString();
+  const saved = JSON.parse(localStorage.getItem('ecoAction'));
+
+  if (saved && saved.date === todayKey) {
+    message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
+    return;
+  }
+
+  ecoActions.forEach(action => {
+    const li = document.createElement('li');
+    li.textContent = action;
+    li.style.cursor = 'pointer';
+
+    li.addEventListener('click', () => {
       const streak = calculateStreak(saved, new Date());
 
-      if (streak === 5 || streak === 10 || streak % 25 === 0) {
-        alert(`You're on a ${streak}-day streak! That's worth celebrating!`);
-      }
-
-      localStorage.setItem("ecoAction", JSON.stringify({
+      localStorage.setItem('ecoAction', JSON.stringify({
         action,
         date: todayKey,
         streak
       }));
 
       message.textContent = `Thanks for choosing: "${action}" today! You're on a ${streak}-day streak!`;
-      actionList.innerHTML = "";
+      actionList.innerHTML = '';
     });
 
-    actionList.appendChild(listItem);
+    actionList.appendChild(li);
   });
 }
 
-if (saved && saved.date !== todayKey && saved.streak > 1) {
-  message.textContent = `Welcome back! Yesterday's streak ended, but you're starting fresh today. One Small Hoof at a time.`;
-}
-
-let storedDate = localStorage.getItem("date");
-let count = (storedDate === today) ? Number(localStorage.getItem("count")) || 0 : 0;
-
-const countDisplay = document.getElementById("count");
-const incrementBtn = document.getElementById("increment-btn");
-
-countDisplay.textContent = count;
-
-incrementBtn.addEventListener("click", () => {
-  count += 1;
-  countDisplay.textContent = count;
-  localStorage.setItem("count", count);
-});
-
-function addCustomTask() {
-  const input = document.getElementById("customTask");
-  const task = input.value.trim();
-  if (task) {
-    CustomTaskManager.add(task);
-    input.value = "";
+function setupCountTracker() {
+  const countElement = document.getElementById('count');
+  const addButton = document.getElementById('add-count');
+  if (!countElement || !addButton) {
+    return;
   }
-}
 
-function loadCustomTasks() {
-  const list = document.getElementById("userTaskList");
-  const saved = JSON.parse(localStorage.getItem("customTasks")) || [];
+  let count = parseInt(localStorage.getItem('actionCount'), 10) || 0;
+  const today = new Date().toDateString();
+  const storedDate = localStorage.getItem('countDate');
 
-  saved.forEach(entry => {
-    const li = document.createElement("li");
-    li.textContent = `${entry.text} — ${entry.date}`;
-    list.appendChild(li);
+  if (storedDate !== today) {
+    count = 0;
+    localStorage.setItem('actionCount', count);
+    localStorage.setItem('countDate', today);
+  }
+
+  countElement.textContent = `Total actions: ${count}`;
+
+  addButton.addEventListener('click', () => {
+    count++;
+    localStorage.setItem('actionCount', count);
+    countElement.textContent = `Total actions: ${count}`;
   });
 }
 
 const CustomTaskManager = {
-  storageKey: "customTasks",
+  storageKey: 'customTasks',
 
   add(task) {
-    const date = new Date().toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    });
-    const entry = { text: task, date };
+    if (!task.trim()) {
+      return;
+    }
 
     const saved = JSON.parse(localStorage.getItem(this.storageKey)) || [];
-    saved.push(entry);
+    saved.push(task);
     localStorage.setItem(this.storageKey, JSON.stringify(saved));
-
-    this.render(entry);
+    this.render(task);
   },
 
   render(entry) {
-    const list = document.getElementById("userTaskList");
-    const li = document.createElement("li");
-    li.textContent = `${entry.text} — ${entry.date}`;
+    const list = document.getElementById('userTaskList');
+    if (!list) {
+      return;
+    }
+
+    const li = document.createElement('li');
+    li.textContent = entry;
     list.appendChild(li);
   },
 
@@ -126,19 +129,39 @@ const CustomTaskManager = {
   },
 
   clear() {
-    if (confirm("Are you sure you want to clear all custom tasks?")) {
-      localStorage.removeItem(this.storageKey);
-      document.getElementById("userTaskList").innerHTML = "";
+    localStorage.removeItem(this.storageKey);
+
+    const list = document.getElementById('userTaskList');
+    if (list) {
+      list.innerHTML = '';
     }
   }
 };
 
+function setupCustomTaskUI() {
+  const input = document.getElementById('customTask');
+  if (!input) {
+    return;
+  }
 
-window.onload = () => {
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const value = input.value.trim();
+      if (value) {
+        CustomTaskManager.add(value);
+        input.value = '';
+      }
+    }
+  });
+
   CustomTaskManager.load();
-  // Other startup logic here
-};
-
-function clearCustomTasks() {
-  CustomTaskManager.clear();
 }
+
+function initUI() {
+  setupDateDisplay();
+  setupEcoActionTracker();
+  setupCountTracker();
+  setupCustomTaskUI();
+}
+
+document.addEventListener('DOMContentLoaded', initUI);

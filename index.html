@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--Triggering redeploy-->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>One Small Hoof</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style-v2.css" />
 </head>
 <body>
-  <main>
-    <h2 class="headline">nature counts!</h2>
-<h1>
-  <img src="images/horseshoe-2.svg" alt="hoof print" class="hoof-logo">
-  ONE SMALL HOOF
-</h1>
-<p class="description"><b>one small hoof</b> is a simple daily eco-action tracker. Tap a positive action each day, like recycling or saving energy, and build a streak. It's joyful, kid-friendly and motivating for everyone. Small habits, big impact.</p>
-<p class="footer-tagline"><b>made in kentucky</b></p>
-<p id="date"></p>
-    <ul id="action-list"></ul>
-    <p id="message"></p>
-<section class="user-tasks">
-  <h3>Add Your Own Step</h3>
-  <input type="text" id="customTask" placeholder="e.g. Pick up litter near the creek" />
-  <button onclick="addCustomTask()">Add Task</button>
-  <ul id="userTaskList"></ul>
-</section>
-<button onclick="clearCustomTasks()">Clear All Tasks</button>
-<a href="index.html" class="back-home">← Return to Pasture</a>
+  <main role="main">
+    
+    <!-- 🌱 Intro Section -->
+    <section class="intro" aria-labelledby="site-title">
+      <h2 class="headline">nature counts!</h2>
+      <h1 id="site-title">
+        <img src="images/horseshoe-2.svg" alt="hoof print" class="hoof-logo" />
+        ONE SMALL HOOF
+      </h1>
+      <p class="description">
+        <strong>One Small Hoof</strong> is a simple daily eco-action tracker. Tap a positive action each day, like recycling or saving energy, and build a streak. It's joyful, kid-friendly and motivating for everyone. Small habits, big impact.
+      </p>
+      <p class="footer-tagline"><strong>made in lexington, ky. by sleeping bear labs</strong></p>
+      <p id="date" aria-live="polite"></p>
+    </section>
+
+    <!-- ✅ Action Tracker -->
+    <section class="daily-actions" aria-label="Daily Eco Actions">
+      <ul id="action-list" role="list"></ul>
+      <p id="message" role="status"></p>
+    </section>
+
+    <!-- ✏️ User Task Creator -->
+    <section class="user-tasks" aria-labelledby="custom-task-title">
+      <h3 id="custom-task-title">Add Your Own Step</h3>
+      <label for="customTask" class="visually-hidden">Your custom eco-action</label>
+      <input type="text" id="customTask" placeholder="e.g. Pick up litter near the creek" />
+      <ul id="userTaskList" role="list"></ul>
+    </section>
+
+    <p id="count">Total actions: 0</p>
+    <button id="add-count">Add 1 action</button>
+
+
+    <!-- 🧹 Task Clear and Navigation -->
+    <section class="task-controls">
+      <nav>
+        <a href="index.html" class="back-home">← Return to Pasture</a>
+      </nav>
+    </section>
+
   </main>
   <script src="script.js"></script>
 </body>
