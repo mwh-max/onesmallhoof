@@ -32,15 +32,17 @@
 
     <!-- ✏️ User Task Creator -->
     <section class="user-tasks" aria-labelledby="custom-task-title">
-      <h3 id="custom-task-title">Add Your Own Step</h3>
+      <h2 id="custom-task-title">Add Your Own Step</h2>
       <label for="customTask" class="visually-hidden">Your custom eco-action</label>
       <input type="text" id="customTask" placeholder="e.g. Pick up litter near the creek" />
       <ul id="userTaskList" role="list"></ul>
     </section>
 
-    <p id="count">Total actions: 0</p>
-    <button id="add-count">Add Your Action</button>
-
+    <!-- 🔢 Action Counter -->
+    <section class="action-counter" aria-label="Action Counter">
+      <p id="count">Total actions: 0</p>
+      <button id="add-count">Add Your Action</button>
+    </section>
 
     <!-- 🧹 Task Clear and Navigation -->
     <section class="task-controls">
