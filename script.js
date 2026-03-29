@@ -80,8 +80,10 @@ function setupEcoActionTracker() {
     const li = document.createElement('li');
     li.textContent = action;
     li.style.cursor = 'pointer';
+    li.setAttribute('role', 'button');
+    li.setAttribute('tabindex', '0');
 
-    li.addEventListener('click', () => {
+    const handleSelect = () => {
       const streak = calculateStreak(saved, new Date());
 
       localStorage.setItem('ecoAction', JSON.stringify({
@@ -97,6 +99,14 @@ function setupEcoActionTracker() {
       const addButton = document.getElementById('add-count');
       if (addButton) {
         addButton.disabled = false;
+      }
+    };
+
+    li.addEventListener('click', handleSelect);
+    li.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleSelect();
       }
     });
 
