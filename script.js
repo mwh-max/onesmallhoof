@@ -201,6 +201,11 @@ function renderActionList(actions, actionList, message, saved, todayKey) {
       const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
       if (streak > longest) {
         localStorage.setItem('longestStreak', streak);
+        const longestEl = document.getElementById('longest-streak');
+        if (longestEl) {
+          longestEl.textContent = `Best: ${streak}-day streak`;
+          longestEl.hidden = false;
+        }
       }
 
       message.textContent = `Thanks for choosing: "${action}" today!`;
