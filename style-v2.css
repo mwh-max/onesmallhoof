@@ -95,6 +95,30 @@ main {
   cursor: not-allowed;
 }
 
+/* 📜 Task History */
+#task-history {
+  margin-top: 1rem;
+}
+#task-history summary {
+  cursor: pointer;
+  color: #4caf50;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+#task-history summary:hover {
+  color: #388e3c;
+}
+.history-date {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #777;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+#taskHistoryList li {
+  opacity: 0.7;
+}
+
 /* ✏️ User Input */
 .user-tasks input[type="text"] {
   width: 100%;

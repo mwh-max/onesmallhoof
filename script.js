@@ -121,9 +121,10 @@ const CustomTaskManager = {
     }
 
     const saved = parseJSON(localStorage.getItem(this.storageKey)) || [];
-    saved.push(task);
+    const entry = { task, date: new Date().toDateString() };
+    saved.push(entry);
     localStorage.setItem(this.storageKey, JSON.stringify(saved));
-    this.render(task);
+    this.render(entry);
   },
 
   render(entry) {
@@ -133,13 +134,58 @@ const CustomTaskManager = {
     }
 
     const li = document.createElement('li');
-    li.textContent = entry;
+    li.textContent = typeof entry === 'string' ? entry : entry.task;
     list.appendChild(li);
+  },
+
+  renderHistory(entries) {
+    const details = document.getElementById('task-history');
+    const list = document.getElementById('taskHistoryList');
+    if (!details || !list) {
+      return;
+    }
+
+    const dateOrder = [];
+    const groups = {};
+    entries.forEach(entry => {
+      const date = typeof entry === 'string' ? 'Earlier' : entry.date;
+      if (!dateOrder.includes(date)) {
+        dateOrder.push(date);
+      }
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(typeof entry === 'string' ? entry : entry.task);
+    });
+
+    dateOrder.reverse().forEach(date => {
+      const heading = document.createElement('p');
+      heading.className = 'history-date';
+      heading.textContent = date;
+      list.appendChild(heading);
+
+      groups[date].forEach(task => {
+        const li = document.createElement('li');
+        li.textContent = task;
+        list.appendChild(li);
+      });
+    });
+
+    details.hidden = false;
   },
 
   load() {
     const saved = parseJSON(localStorage.getItem(this.storageKey)) || [];
-    saved.forEach(entry => this.render(entry));
+    const today = new Date().toDateString();
+
+    const todayEntries = saved.filter(e => typeof e === 'string' || e.date === today);
+    const pastEntries = saved.filter(e => typeof e !== 'string' && e.date !== today);
+
+    todayEntries.forEach(entry => this.render(entry));
+
+    if (pastEntries.length > 0) {
+      this.renderHistory(pastEntries);
+    }
   },
 
   clear() {
@@ -148,6 +194,16 @@ const CustomTaskManager = {
     const list = document.getElementById('userTaskList');
     if (list) {
       list.innerHTML = '';
+    }
+
+    const historyList = document.getElementById('taskHistoryList');
+    if (historyList) {
+      historyList.innerHTML = '';
+    }
+
+    const details = document.getElementById('task-history');
+    if (details) {
+      details.hidden = true;
     }
   }
 };
