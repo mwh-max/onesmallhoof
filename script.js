@@ -44,6 +44,51 @@ function updateStreakDisplay(streak, done) {
   el.hidden = false;
 }
 
+function renderStreakDots() {
+  const container = document.getElementById('streak-history');
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = '';
+
+  const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
+  const historyDates = new Set(history.map(e => e.date));
+  const dayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = d.toDateString();
+    const filled = historyDates.has(dateStr);
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'streak-day';
+
+    const dot = document.createElement('div');
+    dot.className = 'streak-dot' + (filled ? ' filled' : '');
+    dot.setAttribute('aria-label', `${dateStr}: ${filled ? 'completed' : 'not logged'}`);
+
+    const label = document.createElement('span');
+    label.textContent = dayLabels[d.getDay()];
+
+    wrapper.appendChild(dot);
+    wrapper.appendChild(label);
+    container.appendChild(wrapper);
+  }
+}
+
+function setupStreakHistory() {
+  renderStreakDots();
+
+  const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
+  const el = document.getElementById('longest-streak');
+  if (el && longest > 1) {
+    el.textContent = `Best: ${longest}-day streak`;
+    el.hidden = false;
+  }
+}
+
 function setupEcoActionTracker() {
   const ecoActions = [
     'Bring your own bag',
@@ -92,9 +137,24 @@ function setupEcoActionTracker() {
         streak
       }));
 
+      const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
+      if (!history.find(e => e.date === todayKey)) {
+        history.push({ action, date: todayKey });
+        if (history.length > 30) {
+          history.splice(0, history.length - 30);
+        }
+        localStorage.setItem('ecoHistory', JSON.stringify(history));
+      }
+
+      const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
+      if (streak > longest) {
+        localStorage.setItem('longestStreak', streak);
+      }
+
       message.textContent = `Thanks for choosing: "${action}" today!`;
       updateStreakDisplay(streak, true);
       actionList.innerHTML = '';
+      renderStreakDots();
 
       const addButton = document.getElementById('add-count');
       if (addButton) {
@@ -281,6 +341,7 @@ function setupHomeLink() {
 function initUI() {
   setupDateDisplay();
   setupEcoActionTracker();
+  setupStreakHistory();
   setupCountTracker();
   setupCustomTaskUI();
   setupHomeLink();

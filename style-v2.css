@@ -74,6 +74,38 @@ main {
   margin-bottom: 0.75rem;
 }
 
+/* 📅 Streak History Dots */
+#streak-history {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.streak-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.streak-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #2e7d32;
+  background: transparent;
+}
+.streak-dot.filled {
+  background: #4caf50;
+}
+.streak-day span {
+  font-size: 0.7rem;
+  color: #777;
+}
+#longest-streak {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.75rem;
+}
+
 /* ✅ Action List */
 #action-list, #userTaskList {
   list-style-type: none;
