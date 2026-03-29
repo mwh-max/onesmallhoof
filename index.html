@@ -12,6 +12,20 @@
 </head>
 <body>
   <main role="main">
+
+    <!-- 🔐 Auth -->
+    <section id="sign-in-section" class="auth-section" aria-label="Account">
+      <form id="auth-form" hidden>
+        <label for="auth-email" class="visually-hidden">Email address</label>
+        <input type="email" id="auth-email" placeholder="your@email.com" autocomplete="email" />
+        <button type="submit" id="sign-in-btn">sign in</button>
+      </form>
+      <p id="auth-message" role="status" aria-live="polite"></p>
+      <div id="signed-in-info" hidden>
+        <span id="user-email"></span>
+        <button id="sign-out-btn">sign out</button>
+      </div>
+    </section>
     
     <!-- 🌱 Intro Section -->
     <section class="intro" aria-labelledby="site-title">
@@ -82,6 +96,9 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="auth.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

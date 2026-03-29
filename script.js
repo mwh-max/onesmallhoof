@@ -510,6 +510,7 @@ function setupHomeLink() {
 }
 
 function initUI() {
+  setupAuth();
   setupDateDisplay();
   setupEcoActionTracker();
   setupStreakHistory();

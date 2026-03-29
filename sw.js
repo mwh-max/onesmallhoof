@@ -1,9 +1,11 @@
-const CACHE = 'onesmallhoof-v2';
+const CACHE = 'onesmallhoof-v3';
 const ASSETS = [
   '/',
   '/index.html',
   '/style-v2.css',
   '/script.js',
+  '/supabase-client.js',
+  '/auth.js',
   '/manifest.json',
   '/images/horseshoe-2.svg'
 ];
