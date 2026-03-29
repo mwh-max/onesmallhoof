@@ -1,0 +1,17 @@
+{
+  "name": "One Small Hoof",
+  "short_name": "One Small Hoof",
+  "description": "A simple daily eco-action tracker.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f5f4f2",
+  "theme_color": "#4caf50",
+  "icons": [
+    {
+      "src": "images/horseshoe-2.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

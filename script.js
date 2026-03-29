@@ -455,3 +455,7 @@ function initUI() {
 }
 
 document.addEventListener('DOMContentLoaded', initUI);
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
