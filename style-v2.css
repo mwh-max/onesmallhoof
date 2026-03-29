@@ -82,12 +82,13 @@ main {
 #action-list li,
 #userTaskList li {
   background: #e0f7e9;
+  border-left: 4px solid #2e7d32;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   margin-bottom: 0.5rem;
 }
 #action-list li:focus {
-  outline: 3px solid #2e7d32;
+  outline: 3px solid #1565c0;
   outline-offset: 2px;
 }
 #message {
@@ -123,6 +124,7 @@ main {
 
 #add-count:disabled {
   background-color: #aaa;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
@@ -179,7 +181,7 @@ main {
   gap: 0.5rem;
 }
 .back-home {
-  text-decoration: none;
+  text-decoration: underline;
   color: #4caf50;
 }
 button {
