@@ -1,13 +1,13 @@
-const CACHE = 'onesmallhoof-v4';
+const CACHE = 'onesmallhoof-v5';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/style-v2.css',
-  '/script.js',
-  '/supabase-client.js',
-  '/auth.js',
-  '/manifest.json',
-  '/images/horseshoe-2.svg'
+  './',
+  './index.html',
+  './style-v2.css',
+  './script.js',
+  './supabase-client.js',
+  './auth.js',
+  './manifest.json',
+  './images/horseshoe-2.svg'
 ];
 
 self.addEventListener('install', e => {
