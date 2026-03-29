@@ -1,3 +1,5 @@
+import { setupAuth } from './auth.js';
+
 function parseJSON(value, fallback = null) {
   try {
     return JSON.parse(value);

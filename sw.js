@@ -1,4 +1,4 @@
-const CACHE = 'onesmallhoof-v3';
+const CACHE = 'onesmallhoof-v4';
 const ASSETS = [
   '/',
   '/index.html',

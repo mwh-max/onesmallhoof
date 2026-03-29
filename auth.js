@@ -1,4 +1,6 @@
-function setupAuth() {
+import { db } from './supabase-client.js';
+
+export function setupAuth() {
   const form = document.getElementById('auth-form');
   const emailInput = document.getElementById('auth-email');
   const signInBtn = document.getElementById('sign-in-btn');
