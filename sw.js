@@ -1,9 +1,10 @@
-const CACHE = 'onesmallhoof-v1';
+const CACHE = 'onesmallhoof-v2';
 const ASSETS = [
   '/',
   '/index.html',
   '/style-v2.css',
   '/script.js',
+  '/manifest.json',
   '/images/horseshoe-2.svg'
 ];
 
