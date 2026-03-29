@@ -44,6 +44,53 @@ function updateStreakDisplay(streak, done) {
   el.hidden = false;
 }
 
+const STREAK_MILESTONES = [3, 7, 14, 30];
+
+function isMilestone(streak) {
+  return STREAK_MILESTONES.includes(streak);
+}
+
+function showShareCard(streak) {
+  const overlay = document.getElementById('share-overlay');
+  const streakEl = overlay.querySelector('.share-streak');
+  const messageEl = overlay.querySelector('.share-message');
+  const shareBtn = document.getElementById('share-btn');
+  const dismissBtn = document.getElementById('share-dismiss');
+  if (!overlay || !streakEl || !messageEl) {
+    return;
+  }
+
+  const messages = {
+    3:  'Three days strong! Every small step counts.',
+    7:  'One full week of eco-actions. You\'re making a difference!',
+    14: 'Two weeks in. You\'re building a real habit.',
+    30: 'A whole month! You\'re an eco-action champion.'
+  };
+
+  streakEl.textContent = `${streak}-day streak!`;
+  messageEl.textContent = messages[streak] || `${streak} days of eco-actions!`;
+  overlay.hidden = false;
+  shareBtn.focus();
+
+  const shareText = `I've logged ${streak} days of eco-actions on One Small Hoof! 🌿 Small habits, big impact.`;
+
+  shareBtn.onclick = () => {
+    if (navigator.share) {
+      navigator.share({ title: 'One Small Hoof', text: shareText })
+        .catch(() => {});
+    } else {
+      navigator.clipboard.writeText(shareText).then(() => {
+        shareBtn.textContent = 'Copied!';
+        setTimeout(() => { shareBtn.textContent = 'Share'; }, 2000);
+      }).catch(() => {});
+    }
+  };
+
+  dismissBtn.onclick = () => {
+    overlay.hidden = true;
+  };
+}
+
 function renderStreakDots() {
   const container = document.getElementById('streak-history');
   if (!container) {
@@ -155,6 +202,10 @@ function setupEcoActionTracker() {
       updateStreakDisplay(streak, true);
       actionList.innerHTML = '';
       renderStreakDots();
+
+      if (isMilestone(streak)) {
+        showShareCard(streak);
+      }
 
       const addButton = document.getElementById('add-count');
       if (addButton) {
