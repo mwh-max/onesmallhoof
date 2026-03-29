@@ -52,11 +52,14 @@ function isMilestone(streak) {
 
 function showShareCard(streak) {
   const overlay = document.getElementById('share-overlay');
-  const streakEl = overlay.querySelector('.share-streak');
-  const messageEl = overlay.querySelector('.share-message');
   const shareBtn = document.getElementById('share-btn');
   const dismissBtn = document.getElementById('share-dismiss');
-  if (!overlay || !streakEl || !messageEl) {
+  if (!overlay || !shareBtn || !dismissBtn) {
+    return;
+  }
+  const streakEl = overlay.querySelector('.share-streak');
+  const messageEl = overlay.querySelector('.share-message');
+  if (!streakEl || !messageEl) {
     return;
   }
 
