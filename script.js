@@ -19,7 +19,6 @@ function calculateStreak(previous, today) {
 
 
 function setupDateDisplay() {
-  console.log('setupDateDisplay is running');
   const dateElement = document.getElementById('date');
   if (!dateElement) { return; 
   }
