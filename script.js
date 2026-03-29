@@ -6,8 +6,7 @@ function calculateStreak(previous, today) {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate()-1);
 
-  const savedDate = new Date(previous.date);
-  return savedDate.toDateString() === yesterday.toDateString() ? (previous.streak || 1) + 1 : 1;
+  return previous.date === yesterday.toDateString() ? (previous.streak ?? 1) + 1 : 1;
 }
 
 
