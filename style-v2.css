@@ -220,6 +220,34 @@ button {
   font-weight: 600;
 }
 
+/* 🔔 Reminder Button */
+#reminder-btn {
+  background: none;
+  border: 1px solid #4caf50;
+  color: #4caf50;
+  border-radius: 6px;
+  padding: 0.4em 0.9em;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+#reminder-btn[aria-pressed="true"] {
+  background: #4caf50;
+  color: white;
+}
+#reminder-btn:hover:not(:disabled) {
+  background: #e0f7e9;
+}
+#reminder-btn[aria-pressed="true"]:hover {
+  background: #388e3c;
+}
+#reminder-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* 🎉 Share Card */
 #share-overlay {
   position: fixed;
