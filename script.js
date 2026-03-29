@@ -1,3 +1,11 @@
+function parseJSON(value, fallback = null) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
 function calculateStreak(previous, today) {
   if (!previous || !previous.date) {
     return 1;
@@ -42,7 +50,7 @@ function setupEcoActionTracker() {
   }
 
   const todayKey = new Date().toDateString();
-  const saved = JSON.parse(localStorage.getItem('ecoAction'));
+  const saved = parseJSON(localStorage.getItem('ecoAction'));
 
   if (saved && saved.date === todayKey) {
     message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
@@ -95,7 +103,7 @@ function setupCountTracker() {
 
   countElement.textContent = `Total actions: ${count}`;
 
-  const ecoAction = JSON.parse(localStorage.getItem('ecoAction'));
+  const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
   addButton.disabled = !(ecoAction && ecoAction.date === today);
 
   addButton.addEventListener('click', () => {
@@ -113,7 +121,7 @@ const CustomTaskManager = {
       return;
     }
 
-    const saved = JSON.parse(localStorage.getItem(this.storageKey)) || [];
+    const saved = parseJSON(localStorage.getItem(this.storageKey)) || [];
     saved.push(task);
     localStorage.setItem(this.storageKey, JSON.stringify(saved));
     this.render(task);
@@ -131,7 +139,7 @@ const CustomTaskManager = {
   },
 
   load() {
-    const saved = JSON.parse(localStorage.getItem(this.storageKey)) || [];
+    const saved = parseJSON(localStorage.getItem(this.storageKey)) || [];
     saved.forEach(entry => this.render(entry));
   },
 
