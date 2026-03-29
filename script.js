@@ -181,11 +181,22 @@ function setupCustomTaskUI() {
   CustomTaskManager.load();
 }
 
+function setupHomeLink() {
+  const link = document.getElementById('home-link');
+  if (!link) {
+    return;
+  }
+  link.addEventListener('click', () => {
+    localStorage.removeItem('ecoAction');
+  });
+}
+
 function initUI() {
   setupDateDisplay();
   setupEcoActionTracker();
   setupCountTracker();
   setupCustomTaskUI();
+  setupHomeLink();
 }
 
 document.addEventListener('DOMContentLoaded', initUI);
