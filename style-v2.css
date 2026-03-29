@@ -61,6 +61,18 @@ main {
   color: #777;
 }
 
+/* 🔥 Streak Display */
+#streak {
+  display: inline-block;
+  background: #e0f7e9;
+  color: #2e7d32;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.35em 0.75em;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
 /* ✅ Action List */
 #action-list, #userTaskList {
   list-style-type: none;

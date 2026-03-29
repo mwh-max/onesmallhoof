@@ -33,6 +33,17 @@ function setupDateDisplay() {
   dateElement.textContent = `Today is ${today}`;
 }
 
+function updateStreakDisplay(streak, done) {
+  const el = document.getElementById('streak');
+  if (!el) {
+    return;
+  }
+  el.textContent = done
+    ? `${streak}-day streak!`
+    : `${streak}-day streak — keep it going!`;
+  el.hidden = false;
+}
+
 function setupEcoActionTracker() {
   const ecoActions = [
     'Bring your own bag',
@@ -53,7 +64,16 @@ function setupEcoActionTracker() {
 
   if (saved && saved.date === todayKey) {
     message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
+    updateStreakDisplay(saved.streak, true);
     return;
+  }
+
+  if (saved && saved.streak) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (saved.date === yesterday.toDateString()) {
+      updateStreakDisplay(saved.streak, false);
+    }
   }
 
   ecoActions.forEach(action => {
@@ -70,7 +90,8 @@ function setupEcoActionTracker() {
         streak
       }));
 
-      message.textContent = `Thanks for choosing: "${action}" today! You're on a ${streak}-day streak!`;
+      message.textContent = `Thanks for choosing: "${action}" today!`;
+      updateStreakDisplay(streak, true);
       actionList.innerHTML = '';
 
       const addButton = document.getElementById('add-count');
