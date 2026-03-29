@@ -73,8 +73,13 @@ main {
   transition: background-color 0.3s ease;
 }
 
-#add-count:hover {
+#add-count:hover:not(:disabled) {
   background-color: #388e3c;
+}
+
+#add-count:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
 }
 
 /* ✏️ User Input */

@@ -65,6 +65,11 @@ function setupEcoActionTracker() {
 
       message.textContent = `Thanks for choosing: "${action}" today! You're on a ${streak}-day streak!`;
       actionList.innerHTML = '';
+
+      const addButton = document.getElementById('add-count');
+      if (addButton) {
+        addButton.disabled = false;
+      }
     });
 
     actionList.appendChild(li);
@@ -89,6 +94,9 @@ function setupCountTracker() {
   }
 
   countElement.textContent = `Total actions: ${count}`;
+
+  const ecoAction = JSON.parse(localStorage.getItem('ecoAction'));
+  addButton.disabled = !(ecoAction && ecoAction.date === today);
 
   addButton.addEventListener('click', () => {
     count++;
