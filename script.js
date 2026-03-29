@@ -136,39 +136,41 @@ function setupStreakHistory() {
   }
 }
 
-function setupEcoActionTracker() {
-  const ecoActions = [
-    'Bring your own bag',
+const ECO_CATEGORIES = {
+  home: [
     'Turn off unused lights',
+    'Unplug idle electronics',
     'Use a reusable water bottle',
     'Compost food scraps',
-    'Walk instead of drive'
-  ];
+    'Start a recycling bin'
+  ],
+  travel: [
+    'Walk instead of drive',
+    'Bike to your destination',
+    'Take public transit',
+    'Carpool with a friend',
+    'Combine errands into one trip'
+  ],
+  food: [
+    'Buy local produce',
+    'Skip meat for a meal',
+    'Bring your own bag',
+    'Reduce food waste',
+    'Choose a plant-based option'
+  ],
+  community: [
+    'Pick up litter',
+    'Share a sustainability tip',
+    'Support a local business',
+    'Donate unused items',
+    'Plant something'
+  ]
+};
 
-  const actionList = document.getElementById('action-list');
-  const message = document.getElementById('message');
-  if (!actionList || !message) {
-    return;
-  }
+function renderActionList(actions, actionList, message, saved, todayKey) {
+  actionList.innerHTML = '';
 
-  const todayKey = new Date().toDateString();
-  const saved = parseJSON(localStorage.getItem('ecoAction'));
-
-  if (saved && saved.date === todayKey) {
-    message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
-    updateStreakDisplay(saved.streak, true);
-    return;
-  }
-
-  if (saved && saved.streak) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    if (saved.date === yesterday.toDateString()) {
-      updateStreakDisplay(saved.streak, false);
-    }
-  }
-
-  ecoActions.forEach(action => {
+  actions.forEach(action => {
     const li = document.createElement('li');
     li.textContent = action;
     li.style.cursor = 'pointer';
@@ -203,6 +205,11 @@ function setupEcoActionTracker() {
       actionList.innerHTML = '';
       renderStreakDots();
 
+      const categoryNav = document.getElementById('category-nav');
+      if (categoryNav) {
+        categoryNav.hidden = true;
+      }
+
       if (isMilestone(streak)) {
         showShareCard(streak);
       }
@@ -223,6 +230,57 @@ function setupEcoActionTracker() {
 
     actionList.appendChild(li);
   });
+}
+
+function setupEcoActionTracker() {
+  const actionList = document.getElementById('action-list');
+  const message = document.getElementById('message');
+  const categoryNav = document.getElementById('category-nav');
+  if (!actionList || !message) {
+    return;
+  }
+
+  const todayKey = new Date().toDateString();
+  const saved = parseJSON(localStorage.getItem('ecoAction'));
+
+  if (saved && saved.date === todayKey) {
+    message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
+    updateStreakDisplay(saved.streak, true);
+    if (categoryNav) {
+      categoryNav.hidden = true;
+    }
+    return;
+  }
+
+  if (saved && saved.streak) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (saved.date === yesterday.toDateString()) {
+      updateStreakDisplay(saved.streak, false);
+    }
+  }
+
+  const savedCategory = localStorage.getItem('selectedCategory') || 'home';
+
+  if (categoryNav) {
+    Object.keys(ECO_CATEGORIES).forEach(cat => {
+      const btn = categoryNav.querySelector(`[data-category="${cat}"]`);
+      if (!btn) {
+        return;
+      }
+      btn.setAttribute('aria-pressed', String(cat === savedCategory));
+      btn.addEventListener('click', () => {
+        localStorage.setItem('selectedCategory', cat);
+        categoryNav.querySelectorAll('[data-category]').forEach(b => {
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.setAttribute('aria-pressed', 'true');
+        renderActionList(ECO_CATEGORIES[cat], actionList, message, saved, todayKey);
+      });
+    });
+  }
+
+  renderActionList(ECO_CATEGORIES[savedCategory], actionList, message, saved, todayKey);
 }
 
 function setupCountTracker() {
