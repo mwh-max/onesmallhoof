@@ -263,7 +263,8 @@ function setupEcoActionTracker() {
     }
   }
 
-  const savedCategory = localStorage.getItem('selectedCategory') || 'home';
+  const rawCategory = localStorage.getItem('selectedCategory');
+  const savedCategory = (rawCategory && ECO_CATEGORIES[rawCategory]) ? rawCategory : 'home';
 
   if (categoryNav) {
     Object.keys(ECO_CATEGORIES).forEach(cat => {
@@ -500,9 +501,7 @@ function setupHomeLink() {
   if (!link) {
     return;
   }
-  link.addEventListener('click', () => {
-    localStorage.removeItem('ecoAction');
-  });
+  link.addEventListener('click', () => {});
 }
 
 function initUI() {
