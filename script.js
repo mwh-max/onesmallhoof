@@ -380,7 +380,7 @@ function setupCustomTaskUI() {
 }
 
 function updateReminderButton(btn, opted) {
-  btn.textContent = opted ? 'Reminders on' : 'Remind me daily';
+  btn.textContent = opted ? 'reminders on' : 'remind me daily';
   btn.setAttribute('aria-pressed', String(opted));
 }
 
