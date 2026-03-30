@@ -501,14 +501,6 @@ function setupNotificationReminder() {
   }
 }
 
-function setupHomeLink() {
-  const link = document.getElementById('home-link');
-  if (!link) {
-    return;
-  }
-  link.addEventListener('click', () => {});
-}
-
 function initUI() {
   setupAuth();
   setupDateDisplay();
@@ -516,7 +508,6 @@ function initUI() {
   setupStreakHistory();
   setupCountTracker();
   setupCustomTaskUI();
-  setupHomeLink();
   setupNotificationReminder();
 }
 
