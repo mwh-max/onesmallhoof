@@ -49,7 +49,10 @@ function setupAuth() {
     signInBtn.disabled = true;
     signInBtn.textContent = 'sending...';
 
-    const { error } = await db.auth.signInWithOtp({ email });
+    const { error } = await db.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: 'https://mwh-max.github.io/onesmallhoof/' },
+    });
 
     if (error) {
       authMessage.textContent = 'something went wrong. please try again.';
