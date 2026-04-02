@@ -16,6 +16,7 @@ function setupAuth() {
     signedInInfo.hidden = false;
     userEmailEl.textContent = email;
     authMessage.textContent = '';
+    if (window.sync) window.sync.syncDown();
   }
 
   function showSignedOut() {

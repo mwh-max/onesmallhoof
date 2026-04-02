@@ -212,6 +212,7 @@ function renderActionList(actions, actionList, message, saved, todayKey) {
       updateStreakDisplay(streak, true);
       actionList.innerHTML = '';
       renderStreakDots();
+      if (window.sync) window.sync.syncUp();
 
       const categoryNav = document.getElementById('category-nav');
       if (categoryNav) {
@@ -318,6 +319,7 @@ function setupCountTracker() {
     count++;
     localStorage.setItem('actionCount', count);
     countElement.textContent = `Total actions: ${count}`;
+    if (window.sync) window.sync.syncUp();
   });
 }
 
@@ -334,6 +336,7 @@ const CustomTaskManager = {
     saved.push(entry);
     localStorage.setItem(this.storageKey, JSON.stringify(saved));
     this.render(entry);
+    if (window.sync) window.sync.syncUp();
   },
 
   render(entry) {
@@ -509,6 +512,49 @@ function setupHomeLink() {
   link.addEventListener('click', () => {});
 }
 
+function refreshAfterSync() {
+  renderStreakDots();
+
+  const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+  const todayKey = new Date().toDateString();
+  if (ecoAction) {
+    updateStreakDisplay(ecoAction.streak, ecoAction.date === todayKey);
+  }
+
+  const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
+  const longestEl = document.getElementById('longest-streak');
+  if (longestEl && longest > 1) {
+    longestEl.textContent = `Best: ${longest}-day streak`;
+    longestEl.hidden = false;
+  }
+
+  const message = document.getElementById('message');
+  const actionList = document.getElementById('action-list');
+  const categoryNav = document.getElementById('category-nav');
+  if (ecoAction && ecoAction.date === todayKey) {
+    if (message && !message.textContent) {
+      message.textContent = `You've already chosen: "${ecoAction.action}" today. Thanks!`;
+    }
+    if (actionList) actionList.innerHTML = '';
+    if (categoryNav) categoryNav.hidden = true;
+    const addButton = document.getElementById('add-count');
+    if (addButton) addButton.disabled = false;
+  }
+
+  const userTaskList = document.getElementById('userTaskList');
+  if (userTaskList && userTaskList.children.length === 0) {
+    CustomTaskManager.load();
+  }
+
+  const countElement = document.getElementById('count');
+  if (countElement) {
+    const today = new Date().toDateString();
+    const storedDate = localStorage.getItem('countDate');
+    const count = storedDate === today ? (parseInt(localStorage.getItem('actionCount'), 10) || 0) : 0;
+    countElement.textContent = `Total actions: ${count}`;
+  }
+}
+
 function initUI() {
   setupAuth();
   setupDateDisplay();
@@ -518,6 +564,7 @@ function initUI() {
   setupCustomTaskUI();
   setupHomeLink();
   setupNotificationReminder();
+  document.addEventListener('syncdown-complete', refreshAfterSync);
 }
 
 document.addEventListener('DOMContentLoaded', initUI);
