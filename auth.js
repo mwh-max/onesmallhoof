@@ -66,3 +66,5 @@ function setupAuth() {
     await db.auth.signOut();
   });
 }
+
+window.setupAuth = setupAuth;
