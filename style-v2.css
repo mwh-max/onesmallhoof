@@ -11,11 +11,58 @@
   border: 0;
 }
 
+/* 🌿 Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Quicksand', sans-serif;
+  line-height: 1.7;
+  background: #f0efed;
+  color: #2a2a2a;
+  padding: 2rem;
+}
+
+/* 🏡 Layout Structure */
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Section card base */
+.daily-actions,
+.user-tasks,
+.action-counter,
+.task-controls {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.75rem;
+  border: 1px solid #e0deda;
+}
+
+/* Section headings */
+h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2e7d32;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
 /* 🔐 Auth */
 .auth-section {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0deda;
+  margin-bottom: 0.5rem;
 }
 #auth-form {
   display: flex;
@@ -23,26 +70,33 @@
   flex-wrap: wrap;
 }
 #auth-email {
-  padding: 0.4em 0.8em;
+  padding: 0.5em 0.8em;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-family: 'Quicksand', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   flex: 1;
   min-width: 200px;
+  color: #2a2a2a;
+}
+#auth-email:focus {
+  outline: 3px solid #a5d6a7;
+  outline-offset: 1px;
+  border-color: #4caf50;
 }
 #sign-in-btn {
   background: #4caf50;
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 0.4em 0.9em;
+  padding: 0.4em 1.1em;
   min-height: 44px;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   white-space: nowrap;
+  transition: background-color 0.15s;
 }
 #sign-in-btn:hover:not(:disabled) {
   background: #388e3c;
@@ -52,8 +106,8 @@
   cursor: not-allowed;
 }
 #auth-message {
-  font-size: 0.85rem;
-  color: #777;
+  font-size: 0.875rem;
+  color: #666;
 }
 #signed-in-info {
   display: flex;
@@ -63,7 +117,7 @@
   font-size: 0.9rem;
 }
 #user-email {
-  color: #333;
+  color: #444;
 }
 #sign-out-btn {
   background: none;
@@ -76,95 +130,97 @@
   text-decoration: underline;
   padding: 0;
 }
-
-/* 🌿 Base Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Quicksand', sans-serif;
-  line-height: 1.6;
-  background: #f5f4f2;
-  color: #333;
-  padding: 2rem;
-}
-
-/* 🏡 Layout Structure */
-main {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+#sign-out-btn:hover {
+  color: #2e7d32;
 }
 
 /* 🌱 Intro Section */
+.intro {
+  padding-bottom: 0.5rem;
+}
 .intro h1 {
   font-size: 2.5rem;
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 .hoof-logo {
-  width: 64px;
+  width: 60px;
   height: auto;
+  flex-shrink: 0;
 }
 .headline {
-  font-size: 1.2rem;
+  font-size: 0.85rem;
   color: #4caf50;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
 }
 .description {
   font-size: 1rem;
+  line-height: 1.75;
+  color: #444;
   margin-bottom: 1rem;
+  max-width: 580px;
+}
+.description strong {
+  color: #2a2a2a;
 }
 .footer-tagline {
   font-style: italic;
-  color: #777;
+  color: #888;
+  font-size: 0.875rem;
+}
+#date {
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
 }
 
 /* 🔥 Streak Display */
 #streak {
   display: inline-block;
-  background: #e0f7e9;
+  background: #e8f5e9;
   color: #2e7d32;
   font-weight: 600;
-  font-size: 1rem;
-  padding: 0.35em 0.75em;
+  font-size: 0.95rem;
+  padding: 0.3em 0.85em;
   border-radius: 999px;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 /* 📅 Streak History Dots */
 #streak-history {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
 }
 .streak-day {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 .streak-dot {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid #2e7d32;
   background: transparent;
+  transition: background 0.15s;
 }
 .streak-dot.filled {
   background: #4caf50;
+  border-color: #4caf50;
 }
 .streak-day span {
-  font-size: 0.7rem;
-  color: #777;
+  font-size: 0.68rem;
+  color: #888;
+  letter-spacing: 0.02em;
 }
 #longest-streak {
   font-size: 0.85rem;
@@ -177,83 +233,93 @@ main {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 #category-nav button {
   background: none;
-  border: 1px solid #2e7d32;
+  border: 1.5px solid #2e7d32;
   color: #2e7d32;
   border-radius: 999px;
-  padding: 0.3em 0.9em;
+  padding: 0.3em 1em;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.15s, color 0.15s;
 }
 #category-nav button[aria-pressed="true"] {
   background: #2e7d32;
   color: white;
 }
 #category-nav button:hover:not([aria-pressed="true"]) {
-  background: #e0f7e9;
+  background: #e8f5e9;
 }
 #category-nav button:focus {
-  outline: 3px solid #1565c0;
+  outline: 3px solid #a5d6a7;
   outline-offset: 2px;
 }
 
 /* ✅ Action List */
 #action-list, #userTaskList {
   list-style-type: none;
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 #action-list li,
 #userTaskList li {
-  background: #e0f7e9;
-  border-left: 4px solid #2e7d32;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
+  background: #f7fdf8;
+  border-left: 3px solid #4caf50;
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#action-list li:hover {
+  background: #e8f5e9;
 }
 #action-list li:focus {
-  outline: 3px solid #1565c0;
+  outline: 3px solid #a5d6a7;
   outline-offset: 2px;
 }
 #message {
   margin-top: 0.75rem;
+  font-size: 0.9rem;
+  color: #555;
 }
 
+/* 📝 Action Counter */
 .counter-description {
   font-size: 0.9rem;
-  color: #777;
-  margin-bottom: 0.75rem;
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.6;
 }
-
 #count {
-  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2a2a2a;
+  margin-bottom: 0.85rem;
 }
-
 #add-count {
   background-color: #4caf50;
   color: white;
   font-weight: 600;
-  padding: 0.6em 1.2em;
+  padding: 0.6em 1.4em;
   min-height: 44px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
-  transition: background-color 0.3s ease;
+  font-size: 0.95rem;
+  transition: background-color 0.15s;
 }
-
 #add-count:hover:not(:disabled) {
   background-color: #388e3c;
 }
-
 #add-count:disabled {
-  background-color: #aaa;
-  opacity: 0.5;
+  background-color: #bbb;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -268,7 +334,7 @@ main {
   font-size: 0.9rem;
 }
 #task-history summary:hover {
-  color: #388e3c;
+  color: #2e7d32;
 }
 .history-date {
   font-size: 0.85rem;
@@ -284,34 +350,55 @@ main {
 /* ✏️ User Input */
 .user-tasks input[type="text"] {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.65rem 0.85rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
   margin-bottom: 0.5rem;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.95rem;
+  color: #2a2a2a;
+  transition: border-color 0.15s;
+}
+.user-tasks input[type="text"]:focus {
+  outline: 3px solid #a5d6a7;
+  outline-offset: 1px;
+  border-color: #4caf50;
 }
 .user-tasks button {
-  padding: 0.5rem 1rem;
+  padding: 0.5em 1.1em;
   background: #4caf50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background-color 0.15s;
 }
 .user-tasks button:hover {
   background: #388e3c;
 }
 
-/* 🧹 Navigation & Clear */
+/* 🧹 Task Controls */
 .task-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+  padding: 1rem 1.75rem;
 }
 .back-home {
-  text-decoration: underline;
+  text-decoration: none;
   color: #4caf50;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+.back-home:hover {
+  color: #2e7d32;
+  text-decoration: underline;
 }
 button {
   font-weight: 600;
@@ -320,22 +407,22 @@ button {
 /* 🔔 Reminder Button */
 #reminder-btn {
   background: none;
-  border: 1px solid #4caf50;
+  border: 1.5px solid #4caf50;
   color: #4caf50;
   border-radius: 6px;
-  padding: 0.4em 0.9em;
+  padding: 0.4em 1em;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.15s, color 0.15s;
 }
 #reminder-btn[aria-pressed="true"] {
   background: #4caf50;
   color: white;
 }
-#reminder-btn:hover:not(:disabled) {
-  background: #e0f7e9;
+#reminder-btn:hover:not(:disabled):not([aria-pressed="true"]) {
+  background: #e8f5e9;
 }
 #reminder-btn[aria-pressed="true"]:hover {
   background: #388e3c;
@@ -349,7 +436,7 @@ button {
 #share-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -360,7 +447,7 @@ button {
 }
 #share-card {
   background: #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 2rem;
   max-width: 320px;
   width: 90%;
@@ -368,6 +455,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
 .share-streak {
   font-size: 1.8rem;
@@ -376,7 +464,8 @@ button {
 }
 .share-message {
   font-size: 1rem;
-  color: #333;
+  color: #444;
+  line-height: 1.6;
 }
 #share-btn {
   background: #4caf50;
@@ -389,6 +478,7 @@ button {
   font-family: 'Quicksand', sans-serif;
   font-weight: 600;
   font-size: 1rem;
+  transition: background-color 0.15s;
 }
 #share-btn:hover {
   background: #388e3c;
@@ -396,11 +486,14 @@ button {
 #share-dismiss {
   background: none;
   border: none;
-  color: #777;
+  color: #888;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-size: 0.9rem;
   text-decoration: underline;
+}
+#share-dismiss:hover {
+  color: #555;
 }
 
 /* 🎯 Responsive Tuning */
@@ -416,12 +509,18 @@ button {
   .hoof-logo {
     width: 48px;
   }
+  .daily-actions,
+  .user-tasks,
+  .action-counter {
+    padding: 1.25rem;
+  }
   .task-controls {
     flex-direction: column;
     align-items: stretch;
+    padding: 1rem 1.25rem;
   }
   h2 {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
   }
   #action-list li,
   #userTaskList li {
