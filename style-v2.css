@@ -67,6 +67,11 @@ h2 {
   border-bottom: 1px solid #e0deda;
   margin-bottom: 0.5rem;
 }
+#sign-in-intro {
+  font-size: 0.875rem;
+  color: #555;
+  padding: 0.5rem 0 0.25rem;
+}
 #auth-form {
   display: flex;
   gap: 0.5rem;

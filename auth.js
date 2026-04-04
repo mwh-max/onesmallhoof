@@ -22,6 +22,8 @@ function setupAuth() {
   function showSignedIn(email) {
     form.hidden = true;
     signedInInfo.hidden = false;
+    const intro = document.getElementById('sign-in-intro');
+    if (intro) intro.hidden = true;
     mainContent.dataset.authed = 'true';
     setCustomTaskInput(true);
     const nudge = document.getElementById('sign-in-nudge');
@@ -34,6 +36,8 @@ function setupAuth() {
   function showSignedOut() {
     form.hidden = false;
     signedInInfo.hidden = true;
+    const intro = document.getElementById('sign-in-intro');
+    if (intro) intro.hidden = false;
     mainContent.dataset.authed = 'false';
     setCustomTaskInput(false);
   }
