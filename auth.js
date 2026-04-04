@@ -12,16 +12,16 @@ function setupAuth() {
   }
 
   function showSignedIn(email) {
-    form.hidden = true;
-    signedInInfo.hidden = false;
+    form.style.display = 'none';
+    signedInInfo.style.display = 'flex';
     userEmailEl.textContent = email;
     authMessage.textContent = '';
     if (window.sync) window.sync.syncDown();
   }
 
   function showSignedOut() {
-    form.hidden = false;
-    signedInInfo.hidden = true;
+    form.style.display = 'flex';
+    signedInInfo.style.display = 'none';
   }
 
   db.auth.getSession().then(({ data: { session } }) => {
