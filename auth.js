@@ -7,6 +7,8 @@ function setupAuth() {
   const signOutBtn = document.getElementById('sign-out-btn');
   const authMessage = document.getElementById('auth-message');
 
+  const mainContent = document.getElementById('main-content');
+
   if (!form) {
     return;
   }
@@ -14,6 +16,7 @@ function setupAuth() {
   function showSignedIn(email) {
     form.hidden = true;
     signedInInfo.hidden = false;
+    mainContent.hidden = false;
     userEmailEl.textContent = email;
     authMessage.textContent = '';
     if (window.sync) window.sync.syncDown();
@@ -22,6 +25,7 @@ function setupAuth() {
   function showSignedOut() {
     form.hidden = false;
     signedInInfo.hidden = true;
+    mainContent.hidden = true;
   }
 
   db.auth.getSession().then(({ data: { session } }) => {
