@@ -52,7 +52,7 @@ function setupAuth() {
 
     const { error } = await db.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: 'https://mwh-max.github.io/onesmallhoof/' },
+      options: { emailRedirectTo: 'https://onesmallhoof.com/' },
     });
 
     if (error) {
