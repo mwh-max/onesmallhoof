@@ -1,3 +1,6 @@
+/* Ensure [hidden] attribute always works even when CSS sets display */
+[hidden] { display: none !important; }
+
 /* ♿ Accessibility */
 .visually-hidden {
   position: absolute;
