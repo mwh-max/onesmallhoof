@@ -315,10 +315,27 @@ function setupCountTracker() {
   const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
   addButton.disabled = !(ecoAction && ecoAction.date === today);
 
+  const counterMessage = document.createElement('p');
+  counterMessage.id = 'counter-message';
+  counterMessage.setAttribute('role', 'status');
+  counterMessage.setAttribute('aria-live', 'polite');
+  counterMessage.style.cssText = 'font-size: 0.9rem; color: #555; margin-top: 0.5rem;';
+  addButton.insertAdjacentElement('afterend', counterMessage);
+
   addButton.addEventListener('click', () => {
+    const today = new Date().toDateString();
+    const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+
+    if (!ecoAction || ecoAction.date !== today) {
+      counterMessage.textContent = "Pick today's eco-action first — then count anything extra you do!";
+      setTimeout(() => { counterMessage.textContent = ''; }, 4000);
+      return;
+    }
+
     count++;
     localStorage.setItem('actionCount', count);
     countElement.textContent = `Total actions: ${count}`;
+    counterMessage.textContent = '';
     if (window.sync) window.sync.syncUp();
   });
 }

@@ -67,7 +67,12 @@ function setupAuth() {
   });
 
   signOutBtn.addEventListener('click', async () => {
-    await db.auth.signOut();
+    signOutBtn.disabled = true;
+    const { error } = await db.auth.signOut();
+    if (!error) {
+      showSignedOut();
+    }
+    signOutBtn.disabled = false;
   });
 }
 
