@@ -136,6 +136,34 @@ h2 {
 #sign-out-btn:hover {
   color: #2e7d32;
 }
+
+/* 🔒 Signed-out preview state */
+#main-content[data-authed="false"] #action-list li {
+  cursor: default;
+  opacity: 0.65;
+}
+#main-content[data-authed="false"] #category-nav button {
+  cursor: default;
+  opacity: 0.65;
+}
+#main-content[data-authed="false"] #add-count {
+  opacity: 0.65;
+}
+#main-content[data-authed="false"] #customTask {
+  opacity: 0.65;
+}
+
+/* 💬 Sign-in nudge */
+#sign-in-nudge {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0.25rem 0 0.5rem;
+}
+#sign-in-nudge a {
+  color: #4caf50;
+  font-weight: 600;
+  text-decoration: underline;
+}
 #delete-account-btn {
   background: #e53935;
   border: none;

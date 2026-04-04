@@ -6,6 +6,27 @@ function parseJSON(value, fallback = null) {
   }
 }
 
+function isAuthed() {
+  const mc = document.getElementById('main-content');
+  return mc && mc.dataset.authed === 'true';
+}
+
+function showNudge() {
+  const nudge = document.getElementById('sign-in-nudge');
+  if (!nudge) return;
+  nudge.innerHTML = '<a href="#sign-in-section" id="nudge-link">sign in</a> to save your streak';
+  nudge.hidden = false;
+  clearTimeout(nudge._timer);
+  nudge._timer = setTimeout(() => { nudge.hidden = true; }, 4000);
+  const link = document.getElementById('nudge-link');
+  if (link) {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('sign-in-section').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+}
+
 function calculateStreak(previous, today) {
   if (!previous || !previous.date) {
     return 1;
@@ -137,6 +158,13 @@ function setupStreakHistory() {
     el.textContent = `Best: ${longest}-day streak`;
     el.hidden = false;
   }
+
+  const saved = parseJSON(localStorage.getItem('ecoAction'));
+  const streakEl = document.getElementById('streak');
+  if (streakEl && !saved) {
+    streakEl.textContent = 'start your streak today';
+    streakEl.hidden = false;
+  }
 }
 
 const ECO_CATEGORIES = {
@@ -181,6 +209,7 @@ function renderActionList(actions, actionList, message, saved, todayKey) {
     li.setAttribute('tabindex', '0');
 
     const handleSelect = () => {
+      if (!isAuthed()) { showNudge(); return; }
       const streak = calculateStreak(saved, new Date());
 
       localStorage.setItem('ecoAction', JSON.stringify({
@@ -280,6 +309,7 @@ function setupEcoActionTracker() {
       }
       btn.setAttribute('aria-pressed', String(cat === savedCategory));
       btn.addEventListener('click', () => {
+        if (!isAuthed()) { showNudge(); return; }
         localStorage.setItem('selectedCategory', cat);
         categoryNav.querySelectorAll('[data-category]').forEach(b => {
           b.setAttribute('aria-pressed', 'false');
@@ -313,7 +343,7 @@ function setupCountTracker() {
   countElement.textContent = `Total actions: ${count}`;
 
   const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
-  addButton.disabled = !(ecoAction && ecoAction.date === today);
+  addButton.disabled = isAuthed() && !(ecoAction && ecoAction.date === today);
 
   const counterMessage = document.createElement('p');
   counterMessage.id = 'counter-message';
@@ -323,6 +353,7 @@ function setupCountTracker() {
   addButton.insertAdjacentElement('afterend', counterMessage);
 
   addButton.addEventListener('click', () => {
+    if (!isAuthed()) { showNudge(); return; }
     const today = new Date().toDateString();
     const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
 
@@ -454,6 +485,7 @@ function setupCustomTaskUI() {
 
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
+      if (!isAuthed()) { showNudge(); return; }
       const value = input.value.trim();
       if (value) {
         CustomTaskManager.add(value);

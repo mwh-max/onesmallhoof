@@ -17,7 +17,9 @@ function setupAuth() {
   function showSignedIn(email) {
     form.hidden = true;
     signedInInfo.hidden = false;
-    mainContent.hidden = false;
+    mainContent.dataset.authed = 'true';
+    const nudge = document.getElementById('sign-in-nudge');
+    if (nudge) nudge.hidden = true;
     userEmailEl.textContent = email;
     authMessage.textContent = '';
     if (window.sync) window.sync.syncDown();
@@ -26,7 +28,7 @@ function setupAuth() {
   function showSignedOut() {
     form.hidden = false;
     signedInInfo.hidden = true;
-    mainContent.hidden = true;
+    mainContent.dataset.authed = 'false';
   }
 
   db.auth.getSession().then(({ data: { session } }) => {
