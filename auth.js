@@ -5,6 +5,7 @@ function setupAuth() {
   const signedInInfo = document.getElementById('signed-in-info');
   const userEmailEl = document.getElementById('user-email');
   const signOutBtn = document.getElementById('sign-out-btn');
+  const deleteAccountBtn = document.getElementById('delete-account-btn');
   const authMessage = document.getElementById('auth-message');
 
   const mainContent = document.getElementById('main-content');
@@ -77,6 +78,30 @@ function setupAuth() {
       showSignedOut();
     }
     signOutBtn.disabled = false;
+  });
+
+  deleteAccountBtn.addEventListener('click', async () => {
+    const confirmed = window.confirm(
+      'This will permanently delete your account and all your data. This cannot be undone. Are you sure?'
+    );
+    if (!confirmed) return;
+
+    deleteAccountBtn.disabled = true;
+    deleteAccountBtn.textContent = 'deleting...';
+
+    const { error } = await db.rpc('delete_user_account');
+    if (error) {
+      authMessage.textContent = 'something went wrong. please try again.';
+      deleteAccountBtn.disabled = false;
+      deleteAccountBtn.textContent = 'delete account';
+      return;
+    }
+
+    const keys = ['ecoAction', 'ecoHistory', 'customTasks', 'longestStreak', 'actionCount', 'countDate'];
+    keys.forEach(k => localStorage.removeItem(k));
+
+    await db.auth.signOut();
+    showSignedOut();
   });
 }
 
