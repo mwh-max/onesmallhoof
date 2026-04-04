@@ -14,10 +14,16 @@ function setupAuth() {
     return;
   }
 
+  function setCustomTaskInput(enabled) {
+    const input = document.getElementById('customTask');
+    if (input) input.disabled = !enabled;
+  }
+
   function showSignedIn(email) {
     form.hidden = true;
     signedInInfo.hidden = false;
     mainContent.dataset.authed = 'true';
+    setCustomTaskInput(true);
     const nudge = document.getElementById('sign-in-nudge');
     if (nudge) nudge.hidden = true;
     userEmailEl.textContent = email;
@@ -29,6 +35,7 @@ function setupAuth() {
     form.hidden = false;
     signedInInfo.hidden = true;
     mainContent.dataset.authed = 'false';
+    setCustomTaskInput(false);
   }
 
   db.auth.getSession().then(({ data: { session } }) => {
