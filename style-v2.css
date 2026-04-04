@@ -136,6 +136,24 @@ h2 {
 #sign-out-btn:hover {
   color: #2e7d32;
 }
+#delete-account-btn {
+  background: #e53935;
+  border: none;
+  border-radius: 999px;
+  color: white;
+  cursor: pointer;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.4em 1.1em;
+}
+#delete-account-btn:hover:not(:disabled) {
+  background: #b71c1c;
+}
+#delete-account-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 /* 🌱 Intro Section */
 .intro {
