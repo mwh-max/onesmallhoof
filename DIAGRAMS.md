@@ -35,6 +35,7 @@ flowchart TD
     H --> I[Redirect to onesmallhoof.com]
     I --> J[onAuthStateChange fires]
     J -->|session| C
+    J -->|event=SIGNED_IN| T[triggerToast\n"You're signed in. Start your streak!"]
 
     C --> C1[Hide form + intro]
     C --> C2[Show email + buttons]
@@ -163,6 +164,7 @@ flowchart TD
     B --> D[customTask input disabled]
     B --> E[Sign-in intro visible\nabove form]
     B --> F[#proactive-cta visible\nabove category nav]
+    B --> P[#streak-preview shown\nstatic 5-of-7 dots + badge\nhides real streak dots]
 
     G([User clicks action /\ncategory / counter /\ncustom task Enter]) --> H{Signed in?}
     H -->|Yes| I[Normal action proceeds]

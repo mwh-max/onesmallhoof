@@ -7,7 +7,7 @@ Live at **[onesmallhoof.com](https://onesmallhoof.com)**. Made in Lexington, KY 
 ## Features
 
 - **Daily eco-action tracker** — choose from a curated list of actions across four categories (home, travel, food, community); one pick per day
-- **Streak tracking** — current streak displayed with a 7-day dot history and a personal best counter
+- **Streak tracking** — current streak displayed with a 7-day dot history and a personal best counter; first-time users see a hint until their first action is logged
 - **Milestone share card** — at 3, 7, 14, and 30-day streaks, a share card appears with a pre-written message and link; uses the Web Share API with a clipboard fallback; keyboard focus is trapped within the overlay while open (Tab/Shift+Tab cycles between buttons, Escape dismisses)
 - **Custom task logger** — add your own eco-actions via keyboard (Enter to submit)
 - **Task history** — past custom tasks are stored with their date and accessible via a collapsible "View history" section
@@ -15,7 +15,8 @@ Live at **[onesmallhoof.com](https://onesmallhoof.com)**. Made in Lexington, KY 
 - **Daily reminder** — opt-in browser notification prompts users who haven't logged an action for the day
 - **Accounts and sync** — sign in with a magic link (no password); data syncs across devices via Supabase
 - **Account deletion** — users can permanently delete their account and all data from within the app
-- **Onboarding preview** — signed-out users see the tracker in a preview state; interacting with any element shows an inline nudge to sign in
+- **Onboarding preview** — signed-out users see a static 5-of-7 streak preview with badge and copy; interacting with any element shows an inline nudge to sign in; a proactive CTA appears above the category nav
+- **Sign-in toast** — a brief confirmation toast appears after a fresh sign-in (suppressed on page-load session restores)
 
 ## Setup
 
