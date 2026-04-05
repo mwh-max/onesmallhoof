@@ -34,6 +34,7 @@ For auth and sync to work locally you'll need the Supabase client configured in 
 - Auth uses Supabase magic links; emails are sent via Resend from `hello@onesmallhoof.com`
 - Account deletion calls a `SECURITY DEFINER` Postgres function that removes rows from both `public.user_data` and `auth.users`
 - `data-authed` attribute on `#main-content` drives both CSS preview styling and JS interaction gating
+- Accessibility: all sections have `aria-label` or `aria-labelledby`; `#count` announces updates via `aria-live="polite"`; custom task list items carry explicit `role="listitem"` to preserve list semantics when `list-style` is stripped by CSS; the `← Home` link has `aria-label="Home"` for consistent screen reader announcement
 - Related elements are grouped into named wrappers: `#streak-display` (streak pill, dots, hint, best), `#action-selector` (category nav, action list, message), `#counter-controls` (count, button, gate hint)
 - Custom tasks are stored as `{ task, date }` objects; legacy plain-string entries are handled gracefully
 - `JSON.parse` calls are wrapped in a `parseJSON` helper to guard against corrupt storage data

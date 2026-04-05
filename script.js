@@ -446,6 +446,7 @@ const CustomTaskManager = {
     }
 
     const li = document.createElement('li');
+    li.setAttribute('role', 'listitem');
     li.textContent = typeof entry === 'string' ? entry : entry.task;
     list.appendChild(li);
   },

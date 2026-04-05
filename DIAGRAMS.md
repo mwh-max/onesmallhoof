@@ -162,15 +162,16 @@ flowchart TD
     B --> C[CSS dims action list,\ncategory nav, counter, task input]
     B --> D[customTask input disabled]
     B --> E[Sign-in intro visible\nabove form]
+    B --> F[#proactive-cta visible\nabove category nav]
 
-    F([User clicks action /\ncategory / counter /\ncustom task Enter]) --> G{Signed in?}
-    G -->|Yes| H[Normal action proceeds]
-    G -->|No| I[showNudge]
-    I --> J["Render: 'sign in to save your streak'\nwith anchor link"]
-    J --> K[Show nudge, auto-hide after 4s]
-    K --> L{User clicks sign-in link?}
-    L -->|Yes| M[Smooth scroll to\nsign-in section]
-    L -->|No| N[Nudge fades]
+    G([User clicks action /\ncategory / counter /\ncustom task Enter]) --> H{Signed in?}
+    H -->|Yes| I[Normal action proceeds]
+    H -->|No| J[showNudge]
+    J --> K["Render: 'sign in to save your streak'\nwith anchor link\nrole=status aria-live=polite"]
+    K --> L[Show nudge, auto-hide after 4s]
+    L --> M{User clicks sign-in link?}
+    M -->|Yes| N[Smooth scroll to\nsign-in section]
+    M -->|No| O[Nudge fades]
 ```
 
 ---
