@@ -1,4 +1,6 @@
-/* Ensure [hidden] attribute always works even when CSS sets display */
+/* #auth-form and #signed-in-info both have display:flex in CSS.
+   Without !important, that overrides the browser's default display:none for [hidden],
+   causing both elements to show simultaneously. */
 [hidden] { display: none !important; }
 
 /* ♿ Accessibility */

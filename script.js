@@ -1,3 +1,9 @@
+// script.js is loaded as a non-module (defer) so its top-level declarations land on
+// window. This is intentional: auth.js and sync.js are ES modules that cannot import
+// from non-module scripts, so shared functions are accessed via window globals.
+//   window.setupAuth  — called by initUI(); defined in auth.js
+//   window.sync       — { syncUp, syncDown }; defined in sync.js
+//   window.resetApp   — called by auth.js on sign-out; defined below
 function parseJSON(value, fallback = null) {
   try {
     return JSON.parse(value);
@@ -282,6 +288,8 @@ function renderActionList(actions, actionList, message, saved, todayKey) {
   });
 }
 
+// Sets up the eco action UI on initial page load.
+// For updates after Supabase sync completes, see refreshAfterSync() below.
 function setupEcoActionTracker() {
   const actionList = document.getElementById('action-list');
   const message = document.getElementById('message');
@@ -577,6 +585,9 @@ function setupHomeLink() {
   link.addEventListener('click', () => {});
 }
 
+// Runs after syncDown completes (via the 'syncdown-complete' event).
+// Re-reads localStorage (now merged with cloud data) and updates any UI elements
+// that setupEcoActionTracker() may have rendered before sync finished.
 function refreshAfterSync() {
   renderStreakDots();
 

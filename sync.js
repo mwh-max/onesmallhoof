@@ -1,7 +1,11 @@
+// sync.js is a module; script.js (which defines parseJSON) is non-module (defer).
+// Modules execute before defer scripts, so window.parseJSON is not available here.
+// parseJSON is intentionally duplicated rather than adding a shared utility file.
 function parseJSON(value, fallback = null) {
   try { return JSON.parse(value); } catch { return fallback; }
 }
 
+// window.db is the Supabase client set by supabase-client.js before this module runs.
 async function getCurrentUser() {
   const { data: { user } } = await window.db.auth.getUser();
   return user;

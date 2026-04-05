@@ -1,3 +1,10 @@
+// Cross-script dependencies:
+//   window.db      — Supabase client, set by supabase-client.js (module)
+//   window.sync    — { syncUp, syncDown }, set by sync.js (module)
+//   window.resetApp — clears localStorage and resets UI, set by script.js (defer)
+//
+// auth.js is a module; script.js is non-module (defer). Modules cannot import
+// from non-module scripts, so shared functions are exposed via window globals.
 function setupAuth() {
   const form = document.getElementById('auth-form');
   const emailInput = document.getElementById('auth-email');
@@ -88,8 +95,10 @@ function setupAuth() {
     signOutBtn.disabled = true;
     const { error } = await db.auth.signOut();
     if (!error) {
+      // onAuthStateChange fires during signOut() and calls showSignedOut() automatically.
+      // resetApp() is called here (not in showSignedOut) because it should only run
+      // on an explicit sign-out action, not on every auth state change.
       if (window.resetApp) window.resetApp();
-      showSignedOut();
     }
     signOutBtn.disabled = false;
   });
