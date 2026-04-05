@@ -175,6 +175,10 @@ function renderStreakDots() {
 function setupStreakHistory() {
   renderStreakDots();
 
+  const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
+  const dotsHint = document.getElementById('streak-dots-hint');
+  if (dotsHint) dotsHint.hidden = history.length > 0;
+
   const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
   const el = document.getElementById('longest-streak');
   if (el && longest > 1) {
@@ -608,6 +612,10 @@ function setupHomeLink() {
 // that setupEcoActionTracker() may have rendered before sync finished.
 function refreshAfterSync() {
   renderStreakDots();
+
+  const syncedHistory = parseJSON(localStorage.getItem('ecoHistory')) || [];
+  const dotsHint = document.getElementById('streak-dots-hint');
+  if (dotsHint && syncedHistory.length > 0) dotsHint.hidden = true;
 
   const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
   const todayKey = new Date().toDateString();
