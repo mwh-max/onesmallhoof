@@ -550,6 +550,7 @@ button {
   color: #4caf50;
   border-radius: 6px;
   padding: 0.4em 1em;
+  min-height: 44px;
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-size: 0.875rem;
