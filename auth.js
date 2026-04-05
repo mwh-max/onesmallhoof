@@ -26,7 +26,20 @@ function setupAuth() {
     if (input) input.disabled = !enabled;
   }
 
-  function showSignedIn(email) {
+  function triggerToast(message) {
+    const toast = document.createElement('div');
+    toast.className = 'auth-toast';
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    toast.getBoundingClientRect(); // force reflow so transition fires
+    toast.classList.add('auth-toast--visible');
+    setTimeout(() => {
+      toast.classList.remove('auth-toast--visible');
+      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+    }, 2500);
+  }
+
+  function showSignedIn(email, toast = false) {
     form.hidden = true;
     signedInInfo.hidden = false;
     const intro = document.getElementById('sign-in-intro');
@@ -37,6 +50,7 @@ function setupAuth() {
     if (nudge) nudge.hidden = true;
     userEmailEl.textContent = email;
     authMessage.textContent = '';
+    if (toast) triggerToast("You're signed in. Start your streak!");
     if (window.sync) window.sync.syncDown();
   }
 
@@ -59,7 +73,7 @@ function setupAuth() {
 
   db.auth.onAuthStateChange((_event, session) => {
     if (session) {
-      showSignedIn(session.user.email);
+      showSignedIn(session.user.email, _event === 'SIGNED_IN');
     } else {
       showSignedOut();
     }

@@ -162,12 +162,16 @@ h2 {
 
 /* 💬 Sign-in nudge */
 #sign-in-nudge {
+  display: inline-block;
   font-size: 0.9rem;
   color: #555;
   margin: 0.25rem 0 0.5rem;
+  background: #e8f5e9;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
 }
 #sign-in-nudge a {
-  color: #4caf50;
+  color: #2e7d32;
   font-weight: 600;
   text-decoration: underline;
 }
@@ -519,6 +523,29 @@ button {
 #reminder-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* 🥂 Sign-in toast */
+.auth-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2a2a2a;
+  color: white;
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.6em 1.25em;
+  border-radius: 999px;
+  pointer-events: none;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 200;
+}
+.auth-toast--visible {
+  opacity: 1;
 }
 
 /* 🎉 Share Card */
