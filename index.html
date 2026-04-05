@@ -65,11 +65,13 @@
         <p class="streak-preview-copy">This could be yours. Sign in to start.</p>
       </div>
 
-      <p id="streak" aria-live="polite" hidden></p>
-      <div id="streak-history" aria-label="Last 7 days activity"></div>
-      <p id="streak-dots-hint">Your last 7 days will fill in as you go.</p>
+      <div id="streak-display">
+        <p id="streak" aria-live="polite" hidden></p>
+        <div id="streak-history" aria-label="Last 7 days activity"></div>
+        <p id="streak-dots-hint">Your last 7 days will fill in as you go.</p>
+        <p id="longest-streak" hidden></p>
+      </div>
       <p id="sign-in-nudge" hidden role="status"></p>
-      <p id="longest-streak" hidden></p>
       <p id="proactive-cta"><a href="#sign-in-section">Sign in to start your streak →</a></p>
       <nav id="category-nav" aria-label="Action categories">
         <button data-category="home" aria-pressed="false">home</button>
