@@ -445,10 +445,21 @@ const CustomTaskManager = {
       groups[date].push(typeof entry === 'string' ? entry : entry.task);
     });
 
+    const summary = details.querySelector('summary');
+    if (summary) summary.textContent = `View history (${entries.length} task${entries.length === 1 ? '' : 's'})`;
+
     dateOrder.reverse().forEach(date => {
+      let label = date;
+      try {
+        const parsed = new Date(date);
+        if (!isNaN(parsed)) {
+          label = parsed.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+        }
+      } catch (_) {}
+
       const heading = document.createElement('p');
       heading.className = 'history-date';
-      heading.textContent = date;
+      heading.textContent = `${label} · ${groups[date].length} task${groups[date].length === 1 ? '' : 's'}`;
       list.appendChild(heading);
 
       groups[date].forEach(task => {

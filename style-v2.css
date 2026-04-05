@@ -451,11 +451,18 @@ h2 {
   color: #2e7d32;
 }
 .history-date {
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  color: #777;
-  margin-top: 0.75rem;
+  color: #555;
+  margin-top: 1.25rem;
   margin-bottom: 0.25rem;
+}
+.history-date:first-of-type {
+  margin-top: 0;
+}
+.history-date:not(:first-of-type) {
+  border-top: 1px solid #e0deda;
+  padding-top: 1.25rem;
 }
 #taskHistoryList li {
   opacity: 0.7;
