@@ -278,6 +278,39 @@ h2 {
   color: #888;
   letter-spacing: 0.02em;
 }
+/* 👀 Signed-out streak preview */
+#streak-preview { display: none; }
+#main-content[data-authed="false"] #streak-preview { display: block; }
+
+/* Suppress the real (empty) dots and streak pill while preview is showing */
+#main-content[data-authed="false"] #streak-history { display: none; }
+#main-content[data-authed="false"] #streak { display: none !important; }
+
+.streak-preview-dots {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+#streak-preview .streak-day {
+  cursor: default;
+  pointer-events: none;
+}
+.streak-preview-badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.3em 0.85em;
+  border-radius: 999px;
+  margin-bottom: 0.5rem;
+}
+.streak-preview-copy {
+  font-size: 0.875rem;
+  color: #777;
+  margin: 0 0 1rem;
+}
+
 #longest-streak {
   font-size: 0.85rem;
   color: #777;

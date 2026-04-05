@@ -50,6 +50,22 @@
 
     <!-- ✅ Action Tracker -->
     <section class="daily-actions" aria-label="Daily Eco Actions">
+
+      <!-- 👀 Signed-out streak preview — CSS-hidden when authenticated -->
+      <div id="streak-preview" aria-hidden="true">
+        <div class="streak-preview-dots">
+          <div class="streak-day"><div class="streak-dot"></div><span>Su</span></div>
+          <div class="streak-day"><div class="streak-dot filled"></div><span>Mo</span></div>
+          <div class="streak-day"><div class="streak-dot filled"></div><span>Tu</span></div>
+          <div class="streak-day"><div class="streak-dot filled"></div><span>We</span></div>
+          <div class="streak-day"><div class="streak-dot filled"></div><span>Th</span></div>
+          <div class="streak-day"><div class="streak-dot filled"></div><span>Fr</span></div>
+          <div class="streak-day"><div class="streak-dot"></div><span>Sa</span></div>
+        </div>
+        <p class="streak-preview-badge">5-day streak!</p>
+        <p class="streak-preview-copy">This could be yours. Sign in to start.</p>
+      </div>
+
       <p id="streak" aria-live="polite" hidden></p>
       <div id="streak-history" aria-label="Last 7 days activity"></div>
       <p id="sign-in-nudge" hidden role="status"></p>
