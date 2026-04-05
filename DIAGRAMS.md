@@ -108,14 +108,14 @@ flowchart TD
 ```mermaid
 flowchart TD
     A([Page load]) --> B[Read selectedCategory\nfrom localStorage]
-    B --> C[Render action list for category]
+    B --> C[Render action list for category\ninside #action-selector]
 
-    D([Category button click]) --> E{Signed in?}
+    D([Category button click\n#category-nav]) --> E{Signed in?}
     E -->|No| N[showNudge]
     E -->|Yes| F[Save selectedCategory to localStorage]
     F --> C
 
-    G([Action item click]) --> H{Signed in?}
+    G([Action item click\n#action-list]) --> H{Signed in?}
     H -->|No| N
     H -->|Yes| I[calculateStreak\nagainst yesterday's date]
     I --> J[Save ecoAction to localStorage\naction + date + streak]
@@ -123,7 +123,7 @@ flowchart TD
     K --> L{New personal best?}
     L -->|Yes| M[Save longestStreak]
     L -->|No| O
-    M --> O[updateStreakDisplay + renderStreakDots]
+    M --> O[updateStreakDisplay + renderStreakDots\nupdates #streak-display]
     O --> P[syncUp]
     P --> Q{Streak is milestone?\n3 / 7 / 14 / 30}
     Q -->|Yes| R[showShareCard]
@@ -143,12 +143,12 @@ flowchart TD
     D --> E[Render in userTaskList]
     E --> F[syncUp]
 
-    G([Add Your Action click]) --> H{Signed in?}
+    G([Add Your Action click\n#counter-controls]) --> H{Signed in?}
     H -->|No| N
     H -->|Yes| I{Eco-action\nlogged today?}
     I -->|No| J[Show pick eco-action first message]
     I -->|Yes| K[Increment actionCount in localStorage]
-    K --> L[Update count display]
+    K --> L[Update #count display]
     L --> F
 ```
 

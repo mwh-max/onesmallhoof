@@ -73,14 +73,16 @@
       </div>
       <p id="sign-in-nudge" hidden role="status"></p>
       <p id="proactive-cta"><a href="#sign-in-section">Sign in to start your streak →</a></p>
-      <nav id="category-nav" aria-label="Action categories">
-        <button data-category="home" aria-pressed="false">home</button>
-        <button data-category="travel" aria-pressed="false">travel</button>
-        <button data-category="food" aria-pressed="false">food</button>
-        <button data-category="community" aria-pressed="false">community</button>
-      </nav>
-      <ul id="action-list" role="list"></ul>
-      <p id="message" role="status"></p>
+      <div id="action-selector">
+        <nav id="category-nav" aria-label="Action categories">
+          <button data-category="home" aria-pressed="false">home</button>
+          <button data-category="travel" aria-pressed="false">travel</button>
+          <button data-category="food" aria-pressed="false">food</button>
+          <button data-category="community" aria-pressed="false">community</button>
+        </nav>
+        <ul id="action-list" role="list"></ul>
+        <p id="message" role="status"></p>
+      </div>
     </section>
 
     <!-- ✏️ User Task Creator -->
@@ -99,9 +101,11 @@
     <section class="action-counter" aria-labelledby="counter-title">
       <h2 id="counter-title">Track Extra Actions</h2>
       <p class="counter-description">Did something good today that's not on the list? Tap the button to count it.</p>
-      <p id="count">Total actions: 0</p>
-      <button id="add-count">Add Your Action</button>
-      <p id="counter-gate-hint" hidden>Pick today's eco-action above to unlock this.</p>
+      <div id="counter-controls">
+        <p id="count">Total actions: 0</p>
+        <button id="add-count">Add Your Action</button>
+        <p id="counter-gate-hint" hidden>Pick today's eco-action above to unlock this.</p>
+      </div>
     </section>
 
     <!-- 🧹 Task Clear and Navigation -->
