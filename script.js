@@ -125,12 +125,33 @@ function showShareCard(streak) {
     }
   };
 
+  const focusableEls = Array.from(overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'));
+  const firstFocusable = focusableEls[0];
+  const lastFocusable = focusableEls[focusableEls.length - 1];
+
+  const trapFocus = (e) => {
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey) {
+      if (document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable.focus();
+      }
+    } else {
+      if (document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable.focus();
+      }
+    }
+  };
+  overlay.addEventListener('keydown', trapFocus);
+
   const onKeydown = (e) => {
     if (e.key === 'Escape') dismiss();
   };
 
   const dismiss = () => {
     overlay.hidden = true;
+    overlay.removeEventListener('keydown', trapFocus);
     document.removeEventListener('keydown', onKeydown);
   };
 
@@ -599,14 +620,6 @@ function setupNotificationReminder() {
   }
 }
 
-function setupHomeLink() {
-  const link = document.getElementById('home-link');
-  if (!link) {
-    return;
-  }
-  link.addEventListener('click', () => {});
-}
-
 // Runs after syncDown completes (via the 'syncdown-complete' event).
 // Re-reads localStorage (now merged with cloud data) and updates any UI elements
 // that setupEcoActionTracker() may have rendered before sync finished.
@@ -691,8 +704,12 @@ function resetApp() {
   if (countEl) countEl.textContent = 'Total actions: 0';
 
   const addButton = document.getElementById('add-count');
-  if (addButton) addButton.disabled = false;
-  setCounterHint(false);
+  if (addButton) {
+    const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+    const todayStr = new Date().toDateString();
+    addButton.disabled = isAuthed() && !(ecoAction && ecoAction.date === todayStr);
+    setCounterHint(addButton.disabled);
+  }
 
   const counterMessage = document.getElementById('counter-message');
   if (counterMessage) counterMessage.textContent = '';
@@ -732,7 +749,6 @@ function initUI() {
   setupStreakHistory();
   setupCountTracker();
   setupCustomTaskUI();
-  setupHomeLink();
   setupNotificationReminder();
   setupProactiveCta();
   document.addEventListener('syncdown-complete', refreshAfterSync);

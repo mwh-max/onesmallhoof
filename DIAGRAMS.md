@@ -183,6 +183,7 @@ flowchart TD
     B --> C[Set streak text\nand milestone message]
     C --> D[Show overlay\nFocus share button]
     D --> E[Add Escape keydown listener]
+    D --> T[Add Tab focus trap\nTab cycles forward\nShift+Tab cycles back]
 
     F([Share button click]) --> G{navigator.share\navailable?}
     G -->|Yes - mobile| H[Web Share API\ntext + URL]
@@ -190,7 +191,7 @@ flowchart TD
     I --> J[Show copied! for 2s\nthen restore share label]
 
     K([Dismiss button click]) --> L[Hide overlay]
-    L --> M[Remove Escape listener]
+    L --> M[Remove Escape listener\nRemove focus trap]
     N([Escape key]) --> L
 ```
 

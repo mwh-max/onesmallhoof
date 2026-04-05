@@ -8,7 +8,7 @@ Live at **[onesmallhoof.com](https://onesmallhoof.com)**. Made in Lexington, KY 
 
 - **Daily eco-action tracker** — choose from a curated list of actions across four categories (home, travel, food, community); one pick per day
 - **Streak tracking** — current streak displayed with a 7-day dot history and a personal best counter
-- **Milestone share card** — at 3, 7, 14, and 30-day streaks, a share card appears with a pre-written message and link; uses the Web Share API with a clipboard fallback
+- **Milestone share card** — at 3, 7, 14, and 30-day streaks, a share card appears with a pre-written message and link; uses the Web Share API with a clipboard fallback; keyboard focus is trapped within the overlay while open (Tab/Shift+Tab cycles between buttons, Escape dismisses)
 - **Custom task logger** — add your own eco-actions via keyboard (Enter to submit)
 - **Task history** — past custom tasks are stored with their date and accessible via a collapsible "View history" section
 - **Daily action counter** — tallies actions taken each day; resets at midnight; gated behind eco-action selection
@@ -37,3 +37,4 @@ For auth and sync to work locally you'll need the Supabase client configured in 
 - Custom tasks are stored as `{ task, date }` objects; legacy plain-string entries are handled gracefully
 - `JSON.parse` calls are wrapped in a `parseJSON` helper to guard against corrupt storage data
 - All behaviour is in `script.js`, `auth.js`, and `sync.js`; no inline event handlers in HTML
+- The service worker caches all four scripts (`script.js`, `auth.js`, `sync.js`, `supabase-client.js`) plus static assets for offline-first loading

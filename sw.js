@@ -6,6 +6,7 @@ const ASSETS = [
   './script.js',
   './supabase-client.js',
   './auth.js',
+  './sync.js',
   './manifest.json',
   './images/horseshoe-2.svg'
 ];
