@@ -398,6 +398,11 @@ h2 {
 }
 
 /* 📝 Action Counter */
+#counter-gate-hint {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
 .counter-description {
   font-size: 0.9rem;
   color: #666;
@@ -427,7 +432,7 @@ h2 {
   background-color: #388e3c;
 }
 #add-count:disabled {
-  background-color: #bbb;
+  background-color: #c8e6c9;
   opacity: 0.6;
   cursor: not-allowed;
 }

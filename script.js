@@ -12,6 +12,11 @@ function parseJSON(value, fallback = null) {
   }
 }
 
+function setCounterHint(disabled) {
+  const hint = document.getElementById('counter-gate-hint');
+  if (hint) hint.hidden = !disabled;
+}
+
 function isAuthed() {
   const mc = document.getElementById('main-content');
   return mc && mc.dataset.authed === 'true';
@@ -273,6 +278,7 @@ function renderActionList(actions, actionList, message, saved, todayKey) {
       const addButton = document.getElementById('add-count');
       if (addButton) {
         addButton.disabled = false;
+        setCounterHint(false);
       }
     };
 
@@ -364,6 +370,7 @@ function setupCountTracker() {
 
   const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
   addButton.disabled = isAuthed() && !(ecoAction && ecoAction.date === today);
+  setCounterHint(addButton.disabled);
 
   const counterMessage = document.createElement('p');
   counterMessage.id = 'counter-message';
@@ -614,9 +621,9 @@ function refreshAfterSync() {
     }
     if (actionList) actionList.innerHTML = '';
     if (categoryNav) categoryNav.hidden = true;
-    if (addButton) addButton.disabled = false;
+    if (addButton) { addButton.disabled = false; setCounterHint(false); }
   } else {
-    if (addButton) addButton.disabled = true;
+    if (addButton) { addButton.disabled = true; setCounterHint(true); }
   }
 
   const userTaskList = document.getElementById('userTaskList');
@@ -666,6 +673,7 @@ function resetApp() {
 
   const addButton = document.getElementById('add-count');
   if (addButton) addButton.disabled = false;
+  setCounterHint(false);
 
   const counterMessage = document.getElementById('counter-message');
   if (counterMessage) counterMessage.textContent = '';
