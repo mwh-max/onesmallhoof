@@ -552,11 +552,15 @@ function setupNotificationReminder() {
   if (opted && Notification.permission === 'granted') {
     const today = new Date().toDateString();
     const saved = parseJSON(localStorage.getItem('ecoAction'));
-    if (!saved || saved.date !== today) {
-      new Notification('One Small Hoof', {
-        body: "Don't forget your daily eco-action! 🌿",
-        icon: 'images/horseshoe-2.svg'
-      });
+    const lastShown = localStorage.getItem('notificationShownDate');
+    if ((!saved || saved.date !== today) && lastShown !== today) {
+      setTimeout(() => {
+        new Notification('One Small Hoof', {
+          body: "Don't forget your daily eco-action!",
+          icon: 'images/horseshoe-2.svg'
+        });
+        localStorage.setItem('notificationShownDate', today);
+      }, 5000);
     }
   }
 }
