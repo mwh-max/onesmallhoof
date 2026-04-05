@@ -687,6 +687,17 @@ function resetApp() {
 }
 window.resetApp = resetApp;
 
+function setupProactiveCta() {
+  const cta = document.getElementById('proactive-cta');
+  if (!cta) return;
+  const link = cta.querySelector('a');
+  if (!link) return;
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('sign-in-section').scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
 function initUI() {
   setupAuth();
   setupDateDisplay();
@@ -696,6 +707,7 @@ function initUI() {
   setupCustomTaskUI();
   setupHomeLink();
   setupNotificationReminder();
+  setupProactiveCta();
   document.addEventListener('syncdown-complete', refreshAfterSync);
 }
 

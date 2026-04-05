@@ -160,6 +160,22 @@ h2 {
   opacity: 0.65;
 }
 
+/* 📣 Proactive sign-in CTA */
+#proactive-cta { display: none; }
+#main-content[data-authed="false"] #proactive-cta {
+  display: block;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+  padding: 0.4rem 0.75rem;
+  border-left: 3px solid #a5d6a7;
+}
+#proactive-cta a {
+  color: #4caf50;
+  font-weight: 600;
+  text-decoration: none;
+}
+#proactive-cta a:hover { text-decoration: underline; }
+
 /* 💬 Sign-in nudge */
 #sign-in-nudge {
   display: inline-block;
