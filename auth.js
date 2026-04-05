@@ -88,6 +88,7 @@ function setupAuth() {
     signOutBtn.disabled = true;
     const { error } = await db.auth.signOut();
     if (!error) {
+      if (window.resetApp) window.resetApp();
       showSignedOut();
     }
     signOutBtn.disabled = false;
@@ -110,9 +111,7 @@ function setupAuth() {
       return;
     }
 
-    const keys = ['ecoAction', 'ecoHistory', 'customTasks', 'longestStreak', 'actionCount', 'countDate'];
-    keys.forEach(k => localStorage.removeItem(k));
-
+    if (window.resetApp) window.resetApp();
     await db.auth.signOut();
     showSignedOut();
   });

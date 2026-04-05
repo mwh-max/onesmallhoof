@@ -596,14 +596,16 @@ function refreshAfterSync() {
   const message = document.getElementById('message');
   const actionList = document.getElementById('action-list');
   const categoryNav = document.getElementById('category-nav');
+  const addButton = document.getElementById('add-count');
   if (ecoAction && ecoAction.date === todayKey) {
     if (message && !message.textContent) {
       message.textContent = `You've already chosen: "${ecoAction.action}" today. Thanks!`;
     }
     if (actionList) actionList.innerHTML = '';
     if (categoryNav) categoryNav.hidden = true;
-    const addButton = document.getElementById('add-count');
     if (addButton) addButton.disabled = false;
+  } else {
+    if (addButton) addButton.disabled = true;
   }
 
   const userTaskList = document.getElementById('userTaskList');
@@ -619,6 +621,60 @@ function refreshAfterSync() {
     countElement.textContent = `Total actions: ${count}`;
   }
 }
+
+function resetApp() {
+  const keys = ['ecoAction', 'ecoHistory', 'customTasks', 'longestStreak', 'actionCount', 'countDate', 'customTaskDraft', 'selectedCategory', 'notificationShownDate'];
+  keys.forEach(k => localStorage.removeItem(k));
+
+  const streakEl = document.getElementById('streak');
+  if (streakEl) { streakEl.textContent = 'start your streak today'; streakEl.hidden = false; }
+
+  renderStreakDots();
+
+  const longestEl = document.getElementById('longest-streak');
+  if (longestEl) longestEl.hidden = true;
+
+  const message = document.getElementById('message');
+  if (message) message.textContent = '';
+
+  const actionList = document.getElementById('action-list');
+  if (actionList && message) {
+    renderActionList(ECO_CATEGORIES['home'], actionList, message, null, new Date().toDateString());
+  }
+
+  const categoryNav = document.getElementById('category-nav');
+  if (categoryNav) {
+    categoryNav.hidden = false;
+    categoryNav.querySelectorAll('[data-category]').forEach(b => {
+      b.setAttribute('aria-pressed', String(b.dataset.category === 'home'));
+    });
+  }
+
+  const countEl = document.getElementById('count');
+  if (countEl) countEl.textContent = 'Total actions: 0';
+
+  const addButton = document.getElementById('add-count');
+  if (addButton) addButton.disabled = false;
+
+  const counterMessage = document.getElementById('counter-message');
+  if (counterMessage) counterMessage.textContent = '';
+
+  const userTaskList = document.getElementById('userTaskList');
+  if (userTaskList) userTaskList.innerHTML = '';
+
+  const taskHistoryList = document.getElementById('taskHistoryList');
+  if (taskHistoryList) taskHistoryList.innerHTML = '';
+
+  const taskHistory = document.getElementById('task-history');
+  if (taskHistory) taskHistory.hidden = true;
+
+  const customTask = document.getElementById('customTask');
+  if (customTask) customTask.value = '';
+
+  const nudge = document.getElementById('sign-in-nudge');
+  if (nudge) nudge.hidden = true;
+}
+window.resetApp = resetApp;
 
 function initUI() {
   setupAuth();
