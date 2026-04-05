@@ -384,6 +384,12 @@ h2 {
   cursor: pointer;
   transition: background 0.15s;
 }
+#action-list li {
+  padding: 0.85rem 1rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
 #action-list li:hover {
   background: #e8f5e9;
 }
@@ -666,7 +672,9 @@ button {
   h2 {
     margin-bottom: 0.75rem;
   }
-  #action-list li,
+  #action-list li {
+    padding: 0.85rem 1rem;
+  }
   #userTaskList li {
     padding: 0.75rem 1rem;
   }
