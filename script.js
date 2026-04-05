@@ -114,12 +114,16 @@ function showShareCard(streak) {
     }
   };
 
-  const dismiss = () => { overlay.hidden = true; };
-  dismissBtn.onclick = dismiss;
-
   const onKeydown = (e) => {
-    if (e.key === 'Escape') { dismiss(); document.removeEventListener('keydown', onKeydown); }
+    if (e.key === 'Escape') dismiss();
   };
+
+  const dismiss = () => {
+    overlay.hidden = true;
+    document.removeEventListener('keydown', onKeydown);
+  };
+
+  dismissBtn.onclick = dismiss;
   document.addEventListener('keydown', onKeydown);
 }
 
