@@ -97,22 +97,30 @@ function showShareCard(streak) {
   shareBtn.focus();
 
   const shareText = `I've logged ${streak} days of eco-actions on One Small Hoof! 🌿 Small habits, big impact.`;
+  const shareUrl = 'https://onesmallhoof.com';
+
+  shareBtn.textContent = 'share';
+  dismissBtn.textContent = 'dismiss';
 
   shareBtn.onclick = () => {
     if (navigator.share) {
-      navigator.share({ title: 'One Small Hoof', text: shareText })
+      navigator.share({ title: 'One Small Hoof', text: shareText, url: shareUrl })
         .catch(() => {});
     } else {
-      navigator.clipboard.writeText(shareText).then(() => {
-        shareBtn.textContent = 'Copied!';
-        setTimeout(() => { shareBtn.textContent = 'Share'; }, 2000);
+      navigator.clipboard.writeText(`${shareText} ${shareUrl}`).then(() => {
+        shareBtn.textContent = 'copied!';
+        setTimeout(() => { shareBtn.textContent = 'share'; }, 2000);
       }).catch(() => {});
     }
   };
 
-  dismissBtn.onclick = () => {
-    overlay.hidden = true;
+  const dismiss = () => { overlay.hidden = true; };
+  dismissBtn.onclick = dismiss;
+
+  const onKeydown = (e) => {
+    if (e.key === 'Escape') { dismiss(); document.removeEventListener('keydown', onKeydown); }
   };
+  document.addEventListener('keydown', onKeydown);
 }
 
 function renderStreakDots() {
