@@ -12,6 +12,11 @@ async function getCurrentUser() {
 }
 
 async function syncUp() {
+  if (!navigator.onLine) {
+    localStorage.setItem('syncPending', 'true');
+    return;
+  }
+
   const user = await getCurrentUser();
   if (!user) return;
 
@@ -27,13 +32,27 @@ async function syncUp() {
     countDate:     storedDate,
   };
 
-  await window.db.from('user_data').upsert(
+  const { error } = await window.db.from('user_data').upsert(
     { user_id: user.id, data, updated_at: new Date().toISOString() },
     { onConflict: 'user_id' }
   );
+
+  if (error) {
+    localStorage.setItem('syncPending', 'true');
+    if (window.triggerToast) window.triggerToast('Could not save — will retry when reconnected.', true);
+    return;
+  }
+
+  localStorage.removeItem('syncPending');
 }
 
 async function syncDown() {
+  if (!navigator.onLine) {
+    localStorage.setItem('syncPending', 'true');
+    document.dispatchEvent(new CustomEvent('syncdown-complete'));
+    return;
+  }
+
   const user = await getCurrentUser();
   if (!user) return;
 
@@ -43,7 +62,14 @@ async function syncDown() {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  if (error || !row) {
+  if (error) {
+    localStorage.setItem('syncPending', 'true');
+    if (window.triggerToast) window.triggerToast('Could not load your data — will retry when reconnected.', true);
+    document.dispatchEvent(new CustomEvent('syncdown-complete'));
+    return;
+  }
+
+  if (!row) {
     await syncUp();
     document.dispatchEvent(new CustomEvent('syncdown-complete'));
     return;
@@ -99,5 +125,12 @@ async function syncDown() {
 
   document.dispatchEvent(new CustomEvent('syncdown-complete'));
 }
+
+// Retry any pending sync when connectivity is restored.
+window.addEventListener('online', () => {
+  if (localStorage.getItem('syncPending') === 'true') {
+    syncUp();
+  }
+});
 
 window.sync = { syncUp, syncDown };

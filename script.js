@@ -674,7 +674,7 @@ function refreshAfterSync() {
 }
 
 function resetApp() {
-  const keys = ['ecoAction', 'ecoHistory', 'customTasks', 'longestStreak', 'actionCount', 'countDate', 'customTaskDraft', 'selectedCategory', 'notificationShownDate'];
+  const keys = ['ecoAction', 'ecoHistory', 'customTasks', 'longestStreak', 'actionCount', 'countDate', 'customTaskDraft', 'selectedCategory', 'notificationShownDate', 'syncPending'];
   keys.forEach(k => localStorage.removeItem(k));
 
   const streakEl = document.getElementById('streak');

@@ -594,6 +594,9 @@ button {
 .auth-toast--visible {
   opacity: 1;
 }
+.auth-toast--error {
+  background: #c62828;
+}
 
 /* 🎉 Share Card */
 #share-overlay {

@@ -1,10 +1,23 @@
 // Cross-script dependencies:
-//   window.db      — Supabase client, set by supabase-client.js (module)
-//   window.sync    — { syncUp, syncDown }, set by sync.js (module)
-//   window.resetApp — clears localStorage and resets UI, set by script.js (defer)
-//
-// auth.js is a module; script.js is non-module (defer). Modules cannot import
-// from non-module scripts, so shared functions are exposed via window globals.
+//   window.db        — Supabase client, set by supabase-client.js (module)
+//   window.sync      — { syncUp, syncDown }, set by sync.js (module)
+//   window.resetApp  — clears localStorage and resets UI, set by script.js (defer)
+//   window.triggerToast — exposed below so sync.js can show error toasts
+
+function triggerToast(message, isError = false) {
+  const toast = document.createElement('div');
+  toast.className = 'auth-toast' + (isError ? ' auth-toast--error' : '');
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  toast.getBoundingClientRect(); // force reflow so transition fires
+  toast.classList.add('auth-toast--visible');
+  setTimeout(() => {
+    toast.classList.remove('auth-toast--visible');
+    toast.addEventListener('transitionend', () => toast.remove(), { once: true });
+  }, 2500);
+}
+window.triggerToast = triggerToast;
+
 function setupAuth() {
   const form = document.getElementById('auth-form');
   const emailInput = document.getElementById('auth-email');
@@ -24,19 +37,6 @@ function setupAuth() {
   function setCustomTaskInput(enabled) {
     const input = document.getElementById('customTask');
     if (input) input.disabled = !enabled;
-  }
-
-  function triggerToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'auth-toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    toast.getBoundingClientRect(); // force reflow so transition fires
-    toast.classList.add('auth-toast--visible');
-    setTimeout(() => {
-      toast.classList.remove('auth-toast--visible');
-      toast.addEventListener('transitionend', () => toast.remove(), { once: true });
-    }, 2500);
   }
 
   function showSignedIn(email, toast = false) {
