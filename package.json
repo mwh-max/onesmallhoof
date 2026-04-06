@@ -6,6 +6,7 @@
     "predeploy": "node -e \"const fs=require('fs');const f='sw.js';fs.writeFileSync(f,fs.readFileSync(f,'utf8').replace(/const CACHE = 'onesmallhoof-[^']+'/,\\\"const CACHE = 'onesmallhoof-\\\"+Date.now()+\\\"'\\\"));\""
   },
   "devDependencies": {
+    "jsdom": "^29.0.1",
     "vitest": "^2.0.0"
   }
 }

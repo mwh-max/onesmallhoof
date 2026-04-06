@@ -727,6 +727,7 @@ function initUI() {
   document.addEventListener('syncdown-complete', refreshAfterSync);
 }
 
+window.initUI = initUI;
 document.addEventListener('DOMContentLoaded', initUI);
 
 if ('serviceWorker' in navigator) {
