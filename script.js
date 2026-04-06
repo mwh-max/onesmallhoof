@@ -473,8 +473,15 @@ const CustomTaskManager = {
   },
 
   load() {
-    const saved = parseJSON(localStorage.getItem(this.storageKey)) || [];
+    const raw = parseJSON(localStorage.getItem(this.storageKey)) || [];
     const today = new Date().toDateString();
+
+    // Migrate legacy plain-string entries to { task, date } objects so they
+    // survive cross-device sync (the merge path drops bare strings).
+    const saved = raw.map(e => typeof e === 'string' ? { task: e, date: today } : e);
+    if (saved.some((e, i) => e !== raw[i])) {
+      localStorage.setItem(this.storageKey, JSON.stringify(saved));
+    }
 
     const todayEntries = saved.filter(e => typeof e === 'string' || e.date === today);
     const pastEntries = saved.filter(e => typeof e !== 'string' && e.date !== today);
