@@ -721,3 +721,34 @@ h2 {
     width: 100%;
   }
 }
+
+/* 🌙 Dark mode — overrides only the token values; all rules stay the same */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Brand greens — slightly desaturated to ease on dark backgrounds */
+    --green-primary:  #66bb6a;
+    --green-dark:     #a5d6a7;
+    --green-hover:    #81c784;
+    --green-focus:    #388e3c;
+    --green-subtle:   #1b3a1e;
+    --green-faint:    #162318;
+    --green-disabled: #2e4a30;
+
+    /* Layout */
+    --bg-page:        #121212;
+    --bg-card:        #1e1e1e;
+    --border:         #2e2e2e;
+
+    /* Text */
+    --text-primary:   #e8e8e8;
+    --text-body:      #c0c0c0;
+    --text-secondary: #a0a0a0;
+    --text-caption:   #808080;
+    --text-muted:     #606060;
+
+    /* Danger — unchanged, red reads fine on dark */
+    --red-primary:    #e53935;
+    --red-hover:      #b71c1c;
+    --red-error:      #c62828;
+  }
+}
