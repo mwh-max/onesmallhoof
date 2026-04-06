@@ -1,4 +1,6 @@
-const CACHE = 'onesmallhoof-v6';
+// Cache name is stamped with a Unix timestamp by `npm run predeploy`.
+// Never edit this value by hand — run predeploy before pushing instead.
+const CACHE = 'onesmallhoof-1775506355609';
 const ASSETS = [
   './',
   './index.html',
