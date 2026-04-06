@@ -3,6 +3,35 @@
    causing both elements to show simultaneously. */
 [hidden] { display: none !important; }
 
+/* ─── Design tokens ───────────────────────────────────────────────────────── */
+:root {
+  /* Brand greens */
+  --green-primary:  #4caf50;
+  --green-dark:     #2e7d32;
+  --green-hover:    #388e3c;
+  --green-focus:    #a5d6a7;
+  --green-subtle:   #e8f5e9;
+  --green-faint:    #f7fdf8;
+  --green-disabled: #c8e6c9;
+
+  /* Layout */
+  --bg-page:        #f0efed;
+  --bg-card:        #fff;
+  --border:         #e0deda;
+
+  /* Text */
+  --text-primary:   #2a2a2a;
+  --text-body:      #444;
+  --text-secondary: #555;
+  --text-caption:   #777;
+  --text-muted:     #888;
+
+  /* Danger */
+  --red-primary:    #e53935;
+  --red-hover:      #b71c1c;
+  --red-error:      #c62828;
+}
+
 /* ♿ Accessibility */
 .visually-hidden {
   position: absolute;
@@ -25,8 +54,8 @@
 body {
   font-family: 'Quicksand', sans-serif;
   line-height: 1.7;
-  background: #f0efed;
-  color: #2a2a2a;
+  background: var(--bg-page);
+  color: var(--text-primary);
   padding: 2rem;
 }
 
@@ -44,17 +73,17 @@ main {
 .user-tasks,
 .action-counter,
 .task-controls {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 1.75rem;
-  border: 1px solid #e0deda;
+  border: 1px solid var(--border);
 }
 
 /* Section headings */
 h2 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2e7d32;
+  color: var(--green-dark);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 1rem;
@@ -66,12 +95,12 @@ h2 {
   flex-direction: column;
   gap: 0.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #e0deda;
+  border-bottom: 1px solid var(--border);
   margin-bottom: 0.5rem;
 }
 #sign-in-intro {
   font-size: 0.875rem;
-  color: #555;
+  color: var(--text-secondary);
   padding: 0.5rem 0 0.25rem;
 }
 #auth-form {
@@ -87,15 +116,15 @@ h2 {
   font-size: 0.95rem;
   flex: 1;
   min-width: 200px;
-  color: #2a2a2a;
+  color: var(--text-primary);
 }
 #auth-email:focus {
-  outline: 3px solid #a5d6a7;
+  outline: 3px solid var(--green-focus);
   outline-offset: 1px;
-  border-color: #4caf50;
+  border-color: var(--green-primary);
 }
 #sign-in-btn {
-  background: #4caf50;
+  background: var(--green-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -109,7 +138,7 @@ h2 {
   transition: background-color 0.15s;
 }
 #sign-in-btn:hover:not(:disabled) {
-  background: #388e3c;
+  background: var(--green-hover);
 }
 #sign-in-btn:disabled {
   opacity: 0.5;
@@ -127,12 +156,12 @@ h2 {
   font-size: 0.9rem;
 }
 #user-email {
-  color: #444;
+  color: var(--text-body);
 }
 #sign-out-btn {
   background: none;
   border: none;
-  color: #4caf50;
+  color: var(--green-primary);
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-size: 0.9rem;
@@ -141,7 +170,7 @@ h2 {
   padding: 0;
 }
 #sign-out-btn:hover {
-  color: #2e7d32;
+  color: var(--green-dark);
 }
 
 /* 🔒 Signed-out preview state */
@@ -167,10 +196,10 @@ h2 {
   font-size: 0.9rem;
   margin: 0 0 0.75rem;
   padding: 0.4rem 0.75rem;
-  border-left: 3px solid #a5d6a7;
+  border-left: 3px solid var(--green-focus);
 }
 #proactive-cta a {
-  color: #4caf50;
+  color: var(--green-primary);
   font-weight: 600;
   text-decoration: none;
 }
@@ -180,19 +209,19 @@ h2 {
 #sign-in-nudge {
   display: inline-block;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-secondary);
   margin: 0.25rem 0 0.5rem;
-  background: #e8f5e9;
+  background: var(--green-subtle);
   border-radius: 6px;
   padding: 0.4rem 0.75rem;
 }
 #sign-in-nudge a {
-  color: #2e7d32;
+  color: var(--green-dark);
   font-weight: 600;
   text-decoration: underline;
 }
 #delete-account-btn {
-  background: #e53935;
+  background: var(--red-primary);
   border: none;
   border-radius: 999px;
   color: white;
@@ -203,7 +232,7 @@ h2 {
   padding: 0.4em 1.1em;
 }
 #delete-account-btn:hover:not(:disabled) {
-  background: #b71c1c;
+  background: var(--red-hover);
 }
 #delete-account-btn:disabled {
   opacity: 0.5;
@@ -230,7 +259,7 @@ h2 {
 }
 .headline {
   font-size: 0.85rem;
-  color: #4caf50;
+  color: var(--green-primary);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-weight: 600;
@@ -239,25 +268,25 @@ h2 {
 .description {
   font-size: 1rem;
   line-height: 1.75;
-  color: #444;
+  color: var(--text-body);
   margin-bottom: 1rem;
   max-width: 580px;
 }
 .description strong {
-  color: #2a2a2a;
+  color: var(--text-primary);
 }
 .footer-tagline {
-  color: #888;
+  color: var(--text-muted);
   font-size: 0.875rem;
   text-align: center;
   padding: 0.5rem 0 0.25rem;
 }
 .footer-tagline a {
-  color: #888;
+  color: var(--text-muted);
   text-decoration: underline;
 }
 #date {
-  color: #555;
+  color: var(--text-secondary);
   font-size: 0.95rem;
   margin-top: 0.25rem;
 }
@@ -265,8 +294,8 @@ h2 {
 /* 🔥 Streak Display */
 #streak {
   display: inline-block;
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--green-subtle);
+  color: var(--green-dark);
   font-weight: 600;
   font-size: 0.95rem;
   padding: 0.3em 0.85em;
@@ -290,17 +319,17 @@ h2 {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  border: 2px solid #2e7d32;
+  border: 2px solid var(--green-dark);
   background: transparent;
   transition: background 0.15s;
 }
 .streak-dot.filled {
-  background: #4caf50;
-  border-color: #4caf50;
+  background: var(--green-primary);
+  border-color: var(--green-primary);
 }
 .streak-day span {
   font-size: 0.68rem;
-  color: #888;
+  color: var(--text-muted);
   letter-spacing: 0.02em;
 }
 /* 👀 Signed-out streak preview */
@@ -322,8 +351,8 @@ h2 {
 }
 .streak-preview-badge {
   display: inline-block;
-  background: #e8f5e9;
-  color: #2e7d32;
+  background: var(--green-subtle);
+  color: var(--green-dark);
   font-weight: 600;
   font-size: 0.95rem;
   padding: 0.3em 0.85em;
@@ -338,13 +367,13 @@ h2 {
 }
 .streak-preview-copy {
   font-size: 0.875rem;
-  color: #777;
+  color: var(--text-caption);
   margin: 0 0 1rem;
 }
 
 #longest-streak {
   font-size: 0.85rem;
-  color: #777;
+  color: var(--text-caption);
   margin-bottom: 0.75rem;
 }
 
@@ -357,8 +386,8 @@ h2 {
 }
 #category-nav button {
   background: none;
-  border: 1.5px solid #2e7d32;
-  color: #2e7d32;
+  border: 1.5px solid var(--green-dark);
+  color: var(--green-dark);
   border-radius: 999px;
   padding: 0.3em 1em;
   min-height: 44px;
@@ -369,14 +398,14 @@ h2 {
   transition: background-color 0.15s, color 0.15s;
 }
 #category-nav button[aria-pressed="true"] {
-  background: #2e7d32;
+  background: var(--green-dark);
   color: white;
 }
 #category-nav button:hover:not([aria-pressed="true"]) {
-  background: #e8f5e9;
+  background: var(--green-subtle);
 }
 #category-nav button:focus {
-  outline: 3px solid #a5d6a7;
+  outline: 3px solid var(--green-focus);
   outline-offset: 2px;
 }
 
@@ -387,8 +416,8 @@ h2 {
 }
 #action-list li,
 #userTaskList li {
-  background: #f7fdf8;
-  border-left: 3px solid #4caf50;
+  background: var(--green-faint);
+  border-left: 3px solid var(--green-primary);
   padding: 0.65rem 1rem;
   border-radius: 6px;
   margin-bottom: 0.4rem;
@@ -403,22 +432,22 @@ h2 {
   align-items: center;
 }
 #action-list li:hover {
-  background: #e8f5e9;
+  background: var(--green-subtle);
 }
 #action-list li:focus {
-  outline: 3px solid #a5d6a7;
+  outline: 3px solid var(--green-focus);
   outline-offset: 2px;
 }
 #message {
   margin-top: 0.75rem;
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 /* 📝 Action Counter */
 #counter-gate-hint {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-muted);
   margin-top: 0.5rem;
 }
 .counter-description {
@@ -430,11 +459,11 @@ h2 {
 #count {
   font-size: 1rem;
   font-weight: 600;
-  color: #2a2a2a;
+  color: var(--text-primary);
   margin-bottom: 0.85rem;
 }
 #add-count {
-  background-color: #4caf50;
+  background-color: var(--green-primary);
   color: white;
   font-weight: 600;
   padding: 0.6em 1.4em;
@@ -447,10 +476,10 @@ h2 {
   transition: background-color 0.15s;
 }
 #add-count:hover:not(:disabled) {
-  background-color: #388e3c;
+  background-color: var(--green-hover);
 }
 #add-count:disabled {
-  background-color: #c8e6c9;
+  background-color: var(--green-disabled);
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -461,17 +490,17 @@ h2 {
 }
 #task-history summary {
   cursor: pointer;
-  color: #4caf50;
+  color: var(--green-primary);
   font-weight: 600;
   font-size: 0.9rem;
 }
 #task-history summary:hover {
-  color: #2e7d32;
+  color: var(--green-dark);
 }
 .history-date {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #555;
+  color: var(--text-secondary);
   margin-top: 1.25rem;
   margin-bottom: 0.25rem;
 }
@@ -479,7 +508,7 @@ h2 {
   margin-top: 0;
 }
 .history-date:not(:first-of-type) {
-  border-top: 1px solid #e0deda;
+  border-top: 1px solid var(--border);
   padding-top: 1.25rem;
 }
 #taskHistoryList li {
@@ -495,17 +524,17 @@ h2 {
   margin-bottom: 0.5rem;
   font-family: 'Quicksand', sans-serif;
   font-size: 0.95rem;
-  color: #2a2a2a;
+  color: var(--text-primary);
   transition: border-color 0.15s;
 }
 .user-tasks input[type="text"]:focus {
-  outline: 3px solid #a5d6a7;
+  outline: 3px solid var(--green-focus);
   outline-offset: 1px;
-  border-color: #4caf50;
+  border-color: var(--green-primary);
 }
 .user-tasks button {
   padding: 0.5em 1.1em;
-  background: #4caf50;
+  background: var(--green-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -516,7 +545,7 @@ h2 {
   transition: background-color 0.15s;
 }
 .user-tasks button:hover {
-  background: #388e3c;
+  background: var(--green-hover);
 }
 
 /* 🧹 Task Controls */
@@ -530,21 +559,21 @@ h2 {
 }
 .back-home {
   text-decoration: none;
-  color: #4caf50;
+  color: var(--green-primary);
   font-weight: 600;
   font-size: 0.9rem;
   transition: color 0.15s;
 }
 .back-home:hover {
-  color: #2e7d32;
+  color: var(--green-dark);
   text-decoration: underline;
 }
 
 /* 🔔 Reminder Button */
 #reminder-btn {
   background: none;
-  border: 1.5px solid #4caf50;
-  color: #4caf50;
+  border: 1.5px solid var(--green-primary);
+  color: var(--green-primary);
   border-radius: 6px;
   padding: 0.4em 1em;
   min-height: 44px;
@@ -555,14 +584,14 @@ h2 {
   transition: background-color 0.15s, color 0.15s;
 }
 #reminder-btn[aria-pressed="true"] {
-  background: #4caf50;
+  background: var(--green-primary);
   color: white;
 }
 #reminder-btn:hover:not(:disabled):not([aria-pressed="true"]) {
-  background: #e8f5e9;
+  background: var(--green-subtle);
 }
 #reminder-btn[aria-pressed="true"]:hover {
-  background: #388e3c;
+  background: var(--green-hover);
 }
 #reminder-btn:disabled {
   opacity: 0.5;
@@ -575,7 +604,7 @@ h2 {
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  background: #2a2a2a;
+  background: var(--text-primary);
   color: white;
   font-family: 'Quicksand', sans-serif;
   font-size: 0.9rem;
@@ -592,7 +621,7 @@ h2 {
   opacity: 1;
 }
 .auth-toast--error {
-  background: #c62828;
+  background: var(--red-error);
 }
 
 /* 🎉 Share Card */
@@ -606,7 +635,7 @@ h2 {
   z-index: 100;
 }
 #share-card {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 16px;
   padding: 2rem;
   max-width: 320px;
@@ -620,15 +649,15 @@ h2 {
 .share-streak {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #2e7d32;
+  color: var(--green-dark);
 }
 .share-message {
   font-size: 1rem;
-  color: #444;
+  color: var(--text-body);
   line-height: 1.6;
 }
 #share-btn {
-  background: #4caf50;
+  background: var(--green-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -641,19 +670,19 @@ h2 {
   transition: background-color 0.15s;
 }
 #share-btn:hover {
-  background: #388e3c;
+  background: var(--green-hover);
 }
 #share-dismiss {
   background: none;
   border: none;
-  color: #888;
+  color: var(--text-muted);
   cursor: pointer;
   font-family: 'Quicksand', sans-serif;
   font-size: 0.9rem;
   text-decoration: underline;
 }
 #share-dismiss:hover {
-  color: #555;
+  color: var(--text-secondary);
 }
 
 /* 🎯 Responsive Tuning */
