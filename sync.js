@@ -9,6 +9,9 @@ import {
 } from './lib.js';
 
 // window.db is the Supabase client set by supabase-client.js before this module runs.
+
+let isSyncing = false;
+
 async function getCurrentUser() {
   const { data: { user } } = await window.db.auth.getUser();
   return user;
@@ -50,6 +53,10 @@ async function syncUp() {
 }
 
 async function syncDown() {
+  if (isSyncing) return;
+  isSyncing = true;
+
+  try {
   if (!navigator.onLine) {
     localStorage.setItem(K.syncPending, 'true');
     document.dispatchEvent(new CustomEvent('syncdown-complete'));
@@ -121,13 +128,21 @@ async function syncDown() {
   localStorage.setItem(K.customTasks, JSON.stringify(mergedTasks));
 
   document.dispatchEvent(new CustomEvent('syncdown-complete'));
+  } finally {
+    isSyncing = false;
+  }
 }
 
 // Retry any pending sync when connectivity is restored.
+// Debounced to avoid a storm of calls on rapid offline/online cycling.
+let onlineRetryTimer = null;
 window.addEventListener('online', () => {
-  if (localStorage.getItem(K.syncPending) === 'true') {
-    syncUp();
-  }
+  clearTimeout(onlineRetryTimer);
+  onlineRetryTimer = setTimeout(() => {
+    if (localStorage.getItem(K.syncPending) === 'true') {
+      syncUp();
+    }
+  }, 300);
 });
 
 window.sync = { syncUp, syncDown };
