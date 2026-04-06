@@ -49,4 +49,4 @@ Tests use [Vitest](https://vitest.dev/) and run in Node — no browser required.
 - Custom tasks are stored as `{ task, date }` objects; `CustomTaskManager.load()` migrates any legacy plain-string entries to the object format on first load, ensuring they survive cross-device sync
 - Pure logic (`parseJSON`, `calculateStreak`, `isMilestone`, `STREAK_MILESTONES`, and the five sync merge functions) lives in `lib.js`, an ES module loaded before `script.js`; it exports named functions for tests and exposes them on `window` for the non-module `script.js`; `sync.js` imports directly from `lib.js`
 - All behaviour is in `lib.js`, `script.js`, `auth.js`, and `sync.js`; no inline event handlers in HTML
-- The service worker caches all four scripts (`script.js`, `auth.js`, `sync.js`, `supabase-client.js`) plus static assets for offline-first loading
+- The service worker caches all five scripts (`lib.js`, `script.js`, `auth.js`, `sync.js`, `supabase-client.js`) plus static assets for offline-first loading

@@ -8,7 +8,7 @@
 graph TD
     Browser["Browser / PWA"]
     LS["localStorage"]
-    SW["Service Worker\n(cache-first)"]
+    SW["Service Worker\n(cache-first)\ncaches: lib.js, script.js,\nauth.js, sync.js,\nsupabase-client.js + assets"]
     SB["Supabase\n(auth + user_data table)"]
     RS["Resend\n(magic link emails)"]
     LIB["lib.js\n(parseJSON, calculateStreak,\nisMilestone — pure logic)"]
