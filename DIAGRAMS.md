@@ -11,12 +11,14 @@ graph TD
     SW["Service Worker\n(cache-first)"]
     SB["Supabase\n(auth + user_data table)"]
     RS["Resend\n(magic link emails)"]
+    LIB["lib.js\n(parseJSON, calculateStreak,\nisMilestone — pure logic)"]
 
     Browser -->|reads/writes| LS
     Browser -->|asset requests| SW
     Browser <-->|auth + data API| SB
     SB -->|sends email via| RS
     RS -->|magic link| Browser
+    LIB -->|window globals| Browser
 ```
 
 ---
@@ -118,7 +120,7 @@ flowchart TD
 
     G([Action item click\n#action-list]) --> H{Signed in?}
     H -->|No| N
-    H -->|Yes| I[calculateStreak\nagainst yesterday's date]
+    H -->|Yes| I[lib.js: calculateStreak\nagainst yesterday's date]
     I --> J[Save ecoAction to localStorage\naction + date + streak]
     J --> K[Append to ecoHistory\nmax 30 entries]
     K --> L{New personal best?}
@@ -126,7 +128,7 @@ flowchart TD
     L -->|No| O
     M --> O[updateStreakDisplay + renderStreakDots\nupdates #streak-display]
     O --> P[syncUp]
-    P --> Q{Streak is milestone?\n3 / 7 / 14 / 30}
+    P --> Q{lib.js: isMilestone?\n3 / 7 / 14 / 30}
     Q -->|Yes| R[showShareCard]
     Q -->|No| S([Done])
 ```
