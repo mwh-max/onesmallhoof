@@ -89,13 +89,22 @@ function setupAuth() {
     signInBtn.disabled = true;
     signInBtn.textContent = 'sending...';
 
-    const { error } = await db.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: 'https://onesmallhoof.com/' },
-    });
+    const timeout = new Promise(resolve =>
+      setTimeout(() => resolve({ error: new Error('timeout') }), 8000)
+    );
+
+    const { error } = await Promise.race([
+      db.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: 'https://onesmallhoof.com/' },
+      }),
+      timeout,
+    ]);
 
     if (error) {
-      authMessage.textContent = 'something went wrong. please try again.';
+      authMessage.textContent = error.message === 'timeout'
+        ? 'taking too long — check your connection and try again.'
+        : 'something went wrong. please try again.';
     } else {
       authMessage.textContent = 'check your email for a sign-in link.';
       emailInput.value = '';
