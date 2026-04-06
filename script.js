@@ -223,75 +223,16 @@ const ECO_CATEGORIES = {
   ]
 };
 
-function renderActionList(actions, actionList, message, saved, todayKey) {
+// Builds the action list items. No event listeners — selection is handled
+// by a single delegated listener attached once in setupEcoActionTracker().
+function renderActionList(actions, actionList) {
   actionList.innerHTML = '';
-
   actions.forEach(action => {
     const li = document.createElement('li');
     li.textContent = action;
-    li.style.cursor = 'pointer';
+    li.dataset.action = action;
     li.setAttribute('role', 'button');
     li.setAttribute('tabindex', '0');
-
-    const handleSelect = () => {
-      if (!isAuthed()) { showNudge(); return; }
-      const streak = calculateStreak(saved, new Date());
-
-      localStorage.setItem(K.ecoAction, JSON.stringify({
-        action,
-        date: todayKey,
-        streak
-      }));
-
-      const history = parseJSON(localStorage.getItem(K.ecoHistory)) || [];
-      if (!history.find(e => e.date === todayKey)) {
-        history.push({ action, date: todayKey });
-        if (history.length > 30) {
-          history.splice(0, history.length - 30);
-        }
-        localStorage.setItem(K.ecoHistory, JSON.stringify(history));
-      }
-
-      const longest = parseInt(localStorage.getItem(K.longestStreak), 10) || 0;
-      if (streak > longest) {
-        localStorage.setItem(K.longestStreak, streak);
-        const longestEl = document.getElementById('longest-streak');
-        if (longestEl) {
-          longestEl.textContent = `Best: ${streak}-day streak`;
-          longestEl.hidden = false;
-        }
-      }
-
-      message.textContent = `Thanks for choosing: "${action}" today!`;
-      updateStreakDisplay(streak, true);
-      actionList.innerHTML = '';
-      renderStreakDots();
-      if (window.sync) window.sync.syncUp();
-
-      const categoryNav = document.getElementById('category-nav');
-      if (categoryNav) {
-        categoryNav.hidden = true;
-      }
-
-      if (isMilestone(streak)) {
-        showShareCard(streak);
-      }
-
-      const addButton = document.getElementById('add-count');
-      if (addButton) {
-        addButton.disabled = false;
-        setCounterHint(false);
-      }
-    };
-
-    li.addEventListener('click', handleSelect);
-    li.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        handleSelect();
-      }
-    });
-
     actionList.appendChild(li);
   });
 }
@@ -326,15 +267,63 @@ function setupEcoActionTracker() {
     }
   }
 
+  // Single delegated handler for the entire action list — attached once here,
+  // never re-attached when the list re-renders on category change.
+  const handleSelect = (action) => {
+    if (!isAuthed()) { showNudge(); return; }
+    const streak = calculateStreak(saved, new Date());
+
+    localStorage.setItem(K.ecoAction, JSON.stringify({ action, date: todayKey, streak }));
+
+    const history = parseJSON(localStorage.getItem(K.ecoHistory)) || [];
+    if (!history.find(e => e.date === todayKey)) {
+      history.push({ action, date: todayKey });
+      if (history.length > 30) history.splice(0, history.length - 30);
+      localStorage.setItem(K.ecoHistory, JSON.stringify(history));
+    }
+
+    const longest = parseInt(localStorage.getItem(K.longestStreak), 10) || 0;
+    if (streak > longest) {
+      localStorage.setItem(K.longestStreak, streak);
+      const longestEl = document.getElementById('longest-streak');
+      if (longestEl) {
+        longestEl.textContent = `Best: ${streak}-day streak`;
+        longestEl.hidden = false;
+      }
+    }
+
+    message.textContent = `Thanks for choosing: "${action}" today!`;
+    updateStreakDisplay(streak, true);
+    actionList.innerHTML = '';
+    renderStreakDots();
+    if (window.sync) window.sync.syncUp();
+
+    if (categoryNav) categoryNav.hidden = true;
+
+    if (isMilestone(streak)) showShareCard(streak);
+
+    const addButton = document.getElementById('add-count');
+    if (addButton) { addButton.disabled = false; setCounterHint(false); }
+  };
+
+  actionList.addEventListener('click', (e) => {
+    const li = e.target.closest('li[data-action]');
+    if (li) handleSelect(li.dataset.action);
+  });
+
+  actionList.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const li = e.target.closest('li[data-action]');
+    if (li) { e.preventDefault(); handleSelect(li.dataset.action); }
+  });
+
   const rawCategory = localStorage.getItem(K.selectedCategory);
   const savedCategory = (rawCategory && ECO_CATEGORIES[rawCategory]) ? rawCategory : 'home';
 
   if (categoryNav) {
     Object.keys(ECO_CATEGORIES).forEach(cat => {
       const btn = categoryNav.querySelector(`[data-category="${cat}"]`);
-      if (!btn) {
-        return;
-      }
+      if (!btn) return;
       btn.setAttribute('aria-pressed', String(cat === savedCategory));
       btn.addEventListener('click', () => {
         if (!isAuthed()) { showNudge(); return; }
@@ -343,12 +332,12 @@ function setupEcoActionTracker() {
           b.setAttribute('aria-pressed', 'false');
         });
         btn.setAttribute('aria-pressed', 'true');
-        renderActionList(ECO_CATEGORIES[cat], actionList, message, saved, todayKey);
+        renderActionList(ECO_CATEGORIES[cat], actionList);
       });
     });
   }
 
-  renderActionList(ECO_CATEGORIES[savedCategory], actionList, message, saved, todayKey);
+  renderActionList(ECO_CATEGORIES[savedCategory], actionList);
 }
 
 function setupCountTracker() {
@@ -673,7 +662,7 @@ function resetApp() {
 
   const actionList = document.getElementById('action-list');
   if (actionList && message) {
-    renderActionList(ECO_CATEGORIES['home'], actionList, message, null, new Date().toDateString());
+    renderActionList(ECO_CATEGORIES['home'], actionList);
   }
 
   const categoryNav = document.getElementById('category-nav');
