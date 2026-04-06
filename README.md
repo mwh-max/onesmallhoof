@@ -43,7 +43,7 @@ Tests use [Vitest](https://vitest.dev/) and run in Node — no browser required.
 - State is persisted in `localStorage` and synced to Supabase on sign-in
 - Auth uses Supabase magic links; emails are sent via Resend from `hello@onesmallhoof.com`
 - Account deletion calls a `SECURITY DEFINER` Postgres function that removes rows from both `public.user_data` and `auth.users`
-- `data-authed` attribute on `#main-content` drives both CSS preview styling and JS interaction gating
+- `data-authed` attribute on `#main-content` drives both CSS preview styling and JS interaction gating; the global `[hidden] { display: none !important; }` rule handles all hidden-state overrides, so individual elements don't need their own `display: none` or `!important` declarations
 - Accessibility: all sections have `aria-label` or `aria-labelledby`; `#count` announces updates via `aria-live="polite"`; custom task list items carry explicit `role="listitem"` to preserve list semantics when `list-style` is stripped by CSS; the `← Home` link has `aria-label="Home"` for consistent screen reader announcement
 - Related elements are grouped into named wrappers: `#streak-display` (streak pill, dots, hint, best), `#action-selector` (category nav, action list, message), `#counter-controls` (count, button, gate hint)
 - Custom tasks are stored as `{ task, date }` objects; `CustomTaskManager.load()` migrates any legacy plain-string entries to the object format on first load, ensuring they survive cross-device sync
