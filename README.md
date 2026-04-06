@@ -46,7 +46,7 @@ Tests use [Vitest](https://vitest.dev/) and run in Node — no browser required.
 - `data-authed` attribute on `#main-content` drives both CSS preview styling and JS interaction gating
 - Accessibility: all sections have `aria-label` or `aria-labelledby`; `#count` announces updates via `aria-live="polite"`; custom task list items carry explicit `role="listitem"` to preserve list semantics when `list-style` is stripped by CSS; the `← Home` link has `aria-label="Home"` for consistent screen reader announcement
 - Related elements are grouped into named wrappers: `#streak-display` (streak pill, dots, hint, best), `#action-selector` (category nav, action list, message), `#counter-controls` (count, button, gate hint)
-- Custom tasks are stored as `{ task, date }` objects; legacy plain-string entries are handled gracefully
-- Pure logic (`parseJSON`, `calculateStreak`, `isMilestone`, `STREAK_MILESTONES`) lives in `lib.js`, an ES module loaded before `script.js`; it exports named functions for tests and exposes them on `window` for the non-module `script.js`
+- Custom tasks are stored as `{ task, date }` objects; `CustomTaskManager.load()` migrates any legacy plain-string entries to the object format on first load, ensuring they survive cross-device sync
+- Pure logic (`parseJSON`, `calculateStreak`, `isMilestone`, `STREAK_MILESTONES`, and the five sync merge functions) lives in `lib.js`, an ES module loaded before `script.js`; it exports named functions for tests and exposes them on `window` for the non-module `script.js`; `sync.js` imports directly from `lib.js`
 - All behaviour is in `lib.js`, `script.js`, `auth.js`, and `sync.js`; no inline event handlers in HTML
 - The service worker caches all four scripts (`script.js`, `auth.js`, `sync.js`, `supabase-client.js`) plus static assets for offline-first loading

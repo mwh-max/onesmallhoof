@@ -88,11 +88,11 @@ flowchart TD
     C -->|no row| D[syncUp instead]
     C -->|row found| E[Merge cloud → local]
 
-    E --> E1["ecoAction:\nkeep whichever has higher streak"]
-    E --> E2["ecoHistory:\nmerge by date, deduplicate, keep last 30"]
-    E --> E3["longestStreak:\ntake max of local and cloud"]
-    E --> E4["actionCount:\ncloud wins only if same day and higher"]
-    E --> E5["customTasks:\nmerge deduplicated by task + date"]
+    E --> E1["lib.js: mergeEcoAction\nkeep whichever has higher streak"]
+    E --> E2["lib.js: mergeEcoHistory\nmerge by date, deduplicate, keep last 30"]
+    E --> E3["lib.js: mergeLongestStreak\ntake max of local and cloud"]
+    E --> E4["lib.js: mergeActionCount\ncloud wins only if same day and higher"]
+    E --> E5["lib.js: mergeCustomTasks\nmerge deduplicated by task + date"]
 
     E1 & E2 & E3 & E4 & E5 --> F[Write merged data to localStorage]
     F --> G[Dispatch syncdown-complete event]
@@ -139,10 +139,15 @@ flowchart TD
 
 ```mermaid
 flowchart TD
+    LOAD([Page load:\nCustomTaskManager.load]) --> MIG{Any legacy\nplain-string entries?}
+    MIG -->|Yes| UPG["Upgrade to { task, date }\nwrite back to localStorage"]
+    MIG -->|No| RENDER[Render today's tasks]
+    UPG --> RENDER
+
     A([Enter key in\ncustom task input]) --> B{Signed in?}
     B -->|No| N[showNudge]
     B -->|Yes| C[CustomTaskManager.add]
-    C --> D[Append to customTasks in localStorage]
+    C --> D["Append { task, date } to\ncustomTasks in localStorage"]
     D --> E[Render in userTaskList]
     E --> F[syncUp]
 
