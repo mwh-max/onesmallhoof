@@ -80,10 +80,30 @@ export function mergeCustomTasks(localTasks, cloudTasks) {
   return [...map.values()];
 }
 
+// ─── Storage key registry ─────────────────────────────────────────────────────
+// Single source of truth for all localStorage key strings. Every read/write
+// across script.js, sync.js, and auth.js must reference this object so that
+// a rename or addition is made in one place and caught by resetApp() + tests.
+
+export const STORAGE_KEYS = {
+  ecoAction:            'ecoAction',
+  ecoHistory:           'ecoHistory',
+  customTasks:          'customTasks',
+  longestStreak:        'longestStreak',
+  actionCount:          'actionCount',
+  countDate:            'countDate',
+  selectedCategory:     'selectedCategory',
+  reminderOptIn:        'reminderOptIn',
+  notificationShownDate:'notificationShownDate',
+  syncPending:          'syncPending',
+  customTaskDraft:      'customTaskDraft',
+};
+
 // Expose as globals so the non-module script.js can call them directly.
 if (typeof window !== 'undefined') {
   window.parseJSON = parseJSON;
   window.calculateStreak = calculateStreak;
   window.isMilestone = isMilestone;
   window.STREAK_MILESTONES = STREAK_MILESTONES;
+  window.STORAGE_KEYS = STORAGE_KEYS;
 }

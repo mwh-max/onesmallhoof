@@ -1,9 +1,13 @@
 // script.js is loaded as a non-module (defer) so its top-level declarations land on
 // window. This is intentional: auth.js and sync.js are ES modules that cannot import
 // from non-module scripts, so shared functions are accessed via window globals.
-//   window.setupAuth  — called by initUI(); defined in auth.js
-//   window.sync       — { syncUp, syncDown }; defined in sync.js
-//   window.resetApp   — called by auth.js on sign-out; defined below
+//   window.setupAuth    — called by initUI(); defined in auth.js
+//   window.sync         — { syncUp, syncDown }; defined in sync.js
+//   window.resetApp     — called by auth.js on sign-out; defined below
+//   window.STORAGE_KEYS — localStorage key registry; defined in lib.js
+// Alias for brevity throughout this file.
+const K = window.STORAGE_KEYS;
+
 function setCounterHint(disabled) {
   const hint = document.getElementById('counter-gate-hint');
   if (hint) hint.hidden = !disabled;
@@ -32,8 +36,7 @@ function showNudge() {
 
 function setupDateDisplay() {
   const dateElement = document.getElementById('date');
-  if (!dateElement) { return; 
-  }
+  if (!dateElement) { return; }
 
   const today = new Date().toLocaleDateString(undefined, {
     weekday: 'long',
@@ -141,7 +144,7 @@ function renderStreakDots() {
 
   container.innerHTML = '';
 
-  const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
+  const history = parseJSON(localStorage.getItem(K.ecoHistory)) || [];
   const historyDates = new Set(history.map(e => e.date));
   const dayLabels = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
@@ -170,18 +173,18 @@ function renderStreakDots() {
 function setupStreakHistory() {
   renderStreakDots();
 
-  const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
+  const history = parseJSON(localStorage.getItem(K.ecoHistory)) || [];
   const dotsHint = document.getElementById('streak-dots-hint');
   if (dotsHint) dotsHint.hidden = history.length > 0;
 
-  const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
+  const longest = parseInt(localStorage.getItem(K.longestStreak), 10) || 0;
   const el = document.getElementById('longest-streak');
   if (el && longest > 1) {
     el.textContent = `Best: ${longest}-day streak`;
     el.hidden = false;
   }
 
-  const saved = parseJSON(localStorage.getItem('ecoAction'));
+  const saved = parseJSON(localStorage.getItem(K.ecoAction));
   const streakEl = document.getElementById('streak');
   if (streakEl && !saved) {
     streakEl.textContent = 'start your streak today';
@@ -234,24 +237,24 @@ function renderActionList(actions, actionList, message, saved, todayKey) {
       if (!isAuthed()) { showNudge(); return; }
       const streak = calculateStreak(saved, new Date());
 
-      localStorage.setItem('ecoAction', JSON.stringify({
+      localStorage.setItem(K.ecoAction, JSON.stringify({
         action,
         date: todayKey,
         streak
       }));
 
-      const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
+      const history = parseJSON(localStorage.getItem(K.ecoHistory)) || [];
       if (!history.find(e => e.date === todayKey)) {
         history.push({ action, date: todayKey });
         if (history.length > 30) {
           history.splice(0, history.length - 30);
         }
-        localStorage.setItem('ecoHistory', JSON.stringify(history));
+        localStorage.setItem(K.ecoHistory, JSON.stringify(history));
       }
 
-      const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
+      const longest = parseInt(localStorage.getItem(K.longestStreak), 10) || 0;
       if (streak > longest) {
-        localStorage.setItem('longestStreak', streak);
+        localStorage.setItem(K.longestStreak, streak);
         const longestEl = document.getElementById('longest-streak');
         if (longestEl) {
           longestEl.textContent = `Best: ${streak}-day streak`;
@@ -304,7 +307,7 @@ function setupEcoActionTracker() {
   }
 
   const todayKey = new Date().toDateString();
-  const saved = parseJSON(localStorage.getItem('ecoAction'));
+  const saved = parseJSON(localStorage.getItem(K.ecoAction));
 
   if (saved && saved.date === todayKey) {
     message.textContent = `You've already chosen: "${saved.action}" today. Thanks!`;
@@ -323,7 +326,7 @@ function setupEcoActionTracker() {
     }
   }
 
-  const rawCategory = localStorage.getItem('selectedCategory');
+  const rawCategory = localStorage.getItem(K.selectedCategory);
   const savedCategory = (rawCategory && ECO_CATEGORIES[rawCategory]) ? rawCategory : 'home';
 
   if (categoryNav) {
@@ -335,7 +338,7 @@ function setupEcoActionTracker() {
       btn.setAttribute('aria-pressed', String(cat === savedCategory));
       btn.addEventListener('click', () => {
         if (!isAuthed()) { showNudge(); return; }
-        localStorage.setItem('selectedCategory', cat);
+        localStorage.setItem(K.selectedCategory, cat);
         categoryNav.querySelectorAll('[data-category]').forEach(b => {
           b.setAttribute('aria-pressed', 'false');
         });
@@ -355,19 +358,19 @@ function setupCountTracker() {
     return;
   }
 
-  let count = parseInt(localStorage.getItem('actionCount'), 10) || 0;
+  let count = parseInt(localStorage.getItem(K.actionCount), 10) || 0;
   const today = new Date().toDateString();
-  const storedDate = localStorage.getItem('countDate');
+  const storedDate = localStorage.getItem(K.countDate);
 
   if (storedDate !== today) {
     count = 0;
-    localStorage.setItem('actionCount', count);
-    localStorage.setItem('countDate', today);
+    localStorage.setItem(K.actionCount, count);
+    localStorage.setItem(K.countDate, today);
   }
 
   countElement.textContent = `Total actions: ${count}`;
 
-  const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+  const ecoAction = parseJSON(localStorage.getItem(K.ecoAction));
   addButton.disabled = isAuthed() && !(ecoAction && ecoAction.date === today);
   setCounterHint(addButton.disabled);
 
@@ -381,7 +384,7 @@ function setupCountTracker() {
   addButton.addEventListener('click', () => {
     if (!isAuthed()) { showNudge(); return; }
     const today = new Date().toDateString();
-    const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+    const ecoAction = parseJSON(localStorage.getItem(K.ecoAction));
 
     if (!ecoAction || ecoAction.date !== today) {
       counterMessage.textContent = "Pick today's eco-action first — then count anything extra you do!";
@@ -390,7 +393,7 @@ function setupCountTracker() {
     }
 
     count++;
-    localStorage.setItem('actionCount', count);
+    localStorage.setItem(K.actionCount, count);
     countElement.textContent = `Total actions: ${count}`;
     counterMessage.textContent = '';
     if (window.sync) window.sync.syncUp();
@@ -398,7 +401,7 @@ function setupCountTracker() {
 }
 
 const CustomTaskManager = {
-  storageKey: 'customTasks',
+  get storageKey() { return K.customTasks; },
 
   add(task) {
     if (!task.trim()) {
@@ -519,13 +522,13 @@ function setupCustomTaskUI() {
     return;
   }
 
-  const savedValue = localStorage.getItem('customTaskDraft');
+  const savedValue = localStorage.getItem(K.customTaskDraft);
   if (savedValue) {
     input.value = savedValue;
   }
 
   input.addEventListener('input', () => {
-    localStorage.setItem('customTaskDraft', input.value);
+    localStorage.setItem(K.customTaskDraft, input.value);
   });
 
   input.addEventListener('keydown', (e) => {
@@ -535,7 +538,7 @@ function setupCustomTaskUI() {
       if (value) {
         CustomTaskManager.add(value);
         input.value = '';
-        localStorage.removeItem('customTaskDraft');
+        localStorage.removeItem(K.customTaskDraft);
       }
     }
   });
@@ -559,7 +562,7 @@ function setupNotificationReminder() {
     return;
   }
 
-  const opted = localStorage.getItem('reminderOptIn') === 'true';
+  const opted = localStorage.getItem(K.reminderOptIn) === 'true';
   updateReminderButton(btn, opted);
 
   if (Notification.permission === 'denied') {
@@ -572,31 +575,31 @@ function setupNotificationReminder() {
       return;
     }
 
-    const current = localStorage.getItem('reminderOptIn') === 'true';
+    const current = localStorage.getItem(K.reminderOptIn) === 'true';
     if (current) {
-      localStorage.setItem('reminderOptIn', 'false');
+      localStorage.setItem(K.reminderOptIn, 'false');
       updateReminderButton(btn, false);
       return;
     }
 
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      localStorage.setItem('reminderOptIn', 'true');
+      localStorage.setItem(K.reminderOptIn, 'true');
       updateReminderButton(btn, true);
     }
   });
 
   if (opted && Notification.permission === 'granted') {
     const today = new Date().toDateString();
-    const saved = parseJSON(localStorage.getItem('ecoAction'));
-    const lastShown = localStorage.getItem('notificationShownDate');
+    const saved = parseJSON(localStorage.getItem(K.ecoAction));
+    const lastShown = localStorage.getItem(K.notificationShownDate);
     if ((!saved || saved.date !== today) && lastShown !== today) {
       setTimeout(() => {
         new Notification('One Small Hoof', {
           body: "Don't forget your daily eco-action!",
           icon: 'images/horseshoe-2.svg'
         });
-        localStorage.setItem('notificationShownDate', today);
+        localStorage.setItem(K.notificationShownDate, today);
       }, 5000);
     }
   }
@@ -608,17 +611,17 @@ function setupNotificationReminder() {
 function refreshAfterSync() {
   renderStreakDots();
 
-  const syncedHistory = parseJSON(localStorage.getItem('ecoHistory')) || [];
+  const syncedHistory = parseJSON(localStorage.getItem(K.ecoHistory)) || [];
   const dotsHint = document.getElementById('streak-dots-hint');
   if (dotsHint && syncedHistory.length > 0) dotsHint.hidden = true;
 
-  const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+  const ecoAction = parseJSON(localStorage.getItem(K.ecoAction));
   const todayKey = new Date().toDateString();
   if (ecoAction) {
     updateStreakDisplay(ecoAction.streak, ecoAction.date === todayKey);
   }
 
-  const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
+  const longest = parseInt(localStorage.getItem(K.longestStreak), 10) || 0;
   const longestEl = document.getElementById('longest-streak');
   if (longestEl && longest > 1) {
     longestEl.textContent = `Best: ${longest}-day streak`;
@@ -648,15 +651,14 @@ function refreshAfterSync() {
   const countElement = document.getElementById('count');
   if (countElement) {
     const today = new Date().toDateString();
-    const storedDate = localStorage.getItem('countDate');
-    const count = storedDate === today ? (parseInt(localStorage.getItem('actionCount'), 10) || 0) : 0;
+    const storedDate = localStorage.getItem(K.countDate);
+    const count = storedDate === today ? (parseInt(localStorage.getItem(K.actionCount), 10) || 0) : 0;
     countElement.textContent = `Total actions: ${count}`;
   }
 }
 
 function resetApp() {
-  const keys = ['ecoAction', 'ecoHistory', 'customTasks', 'longestStreak', 'actionCount', 'countDate', 'customTaskDraft', 'selectedCategory', 'notificationShownDate', 'syncPending'];
-  keys.forEach(k => localStorage.removeItem(k));
+  Object.values(K).forEach(key => localStorage.removeItem(key));
 
   const streakEl = document.getElementById('streak');
   if (streakEl) { streakEl.textContent = 'start your streak today'; streakEl.hidden = false; }
@@ -687,7 +689,7 @@ function resetApp() {
 
   const addButton = document.getElementById('add-count');
   if (addButton) {
-    const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
+    const ecoAction = parseJSON(localStorage.getItem(K.ecoAction));
     const todayStr = new Date().toDateString();
     addButton.disabled = isAuthed() && !(ecoAction && ecoAction.date === todayStr);
     setCounterHint(addButton.disabled);

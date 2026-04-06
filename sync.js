@@ -5,6 +5,7 @@ import {
   mergeLongestStreak,
   mergeActionCount,
   mergeCustomTasks,
+  STORAGE_KEYS as K,
 } from './lib.js';
 
 // window.db is the Supabase client set by supabase-client.js before this module runs.
@@ -15,7 +16,7 @@ async function getCurrentUser() {
 
 async function syncUp() {
   if (!navigator.onLine) {
-    localStorage.setItem('syncPending', 'true');
+    localStorage.setItem(K.syncPending, 'true');
     return;
   }
 
@@ -23,14 +24,14 @@ async function syncUp() {
   if (!user) return;
 
   const today = new Date().toDateString();
-  const storedDate = localStorage.getItem('countDate');
+  const storedDate = localStorage.getItem(K.countDate);
 
   const data = {
-    ecoAction:     localStorage.getItem('ecoAction'),
-    ecoHistory:    localStorage.getItem('ecoHistory'),
-    customTasks:   localStorage.getItem('customTasks'),
-    longestStreak: localStorage.getItem('longestStreak'),
-    actionCount:   storedDate === today ? localStorage.getItem('actionCount') : '0',
+    ecoAction:     localStorage.getItem(K.ecoAction),
+    ecoHistory:    localStorage.getItem(K.ecoHistory),
+    customTasks:   localStorage.getItem(K.customTasks),
+    longestStreak: localStorage.getItem(K.longestStreak),
+    actionCount:   storedDate === today ? localStorage.getItem(K.actionCount) : '0',
     countDate:     storedDate,
   };
 
@@ -40,17 +41,17 @@ async function syncUp() {
   );
 
   if (error) {
-    localStorage.setItem('syncPending', 'true');
+    localStorage.setItem(K.syncPending, 'true');
     if (window.triggerToast) window.triggerToast('Could not save — will retry when reconnected.', true);
     return;
   }
 
-  localStorage.removeItem('syncPending');
+  localStorage.removeItem(K.syncPending);
 }
 
 async function syncDown() {
   if (!navigator.onLine) {
-    localStorage.setItem('syncPending', 'true');
+    localStorage.setItem(K.syncPending, 'true');
     document.dispatchEvent(new CustomEvent('syncdown-complete'));
     return;
   }
@@ -65,7 +66,7 @@ async function syncDown() {
     .maybeSingle();
 
   if (error) {
-    localStorage.setItem('syncPending', 'true');
+    localStorage.setItem(K.syncPending, 'true');
     if (window.triggerToast) window.triggerToast('Could not load your data — will retry when reconnected.', true);
     document.dispatchEvent(new CustomEvent('syncdown-complete'));
     return;
@@ -81,50 +82,50 @@ async function syncDown() {
 
   // ecoAction: keep whichever has a higher streak
   const winningAction = mergeEcoAction(
-    parseJSON(localStorage.getItem('ecoAction')),
+    parseJSON(localStorage.getItem(K.ecoAction)),
     parseJSON(cloud.ecoAction)
   );
-  if (winningAction) localStorage.setItem('ecoAction', JSON.stringify(winningAction));
+  if (winningAction) localStorage.setItem(K.ecoAction, JSON.stringify(winningAction));
 
   // ecoHistory: merge by date, keep latest 30
   const mergedHistory = mergeEcoHistory(
-    parseJSON(localStorage.getItem('ecoHistory')) || [],
+    parseJSON(localStorage.getItem(K.ecoHistory)) || [],
     parseJSON(cloud.ecoHistory) || []
   );
-  localStorage.setItem('ecoHistory', JSON.stringify(mergedHistory));
+  localStorage.setItem(K.ecoHistory, JSON.stringify(mergedHistory));
 
   // longestStreak: take max
   const mergedLongest = mergeLongestStreak(
-    parseInt(localStorage.getItem('longestStreak'), 10) || 0,
+    parseInt(localStorage.getItem(K.longestStreak), 10) || 0,
     parseInt(cloud.longestStreak, 10) || 0
   );
-  localStorage.setItem('longestStreak', mergedLongest);
+  localStorage.setItem(K.longestStreak, mergedLongest);
 
   // actionCount: cloud wins only if same day and higher
   const today = new Date().toDateString();
   const { count: mergedCount, date: mergedDate } = mergeActionCount(
-    parseInt(localStorage.getItem('actionCount'), 10) || 0,
-    localStorage.getItem('countDate'),
+    parseInt(localStorage.getItem(K.actionCount), 10) || 0,
+    localStorage.getItem(K.countDate),
     parseInt(cloud.actionCount, 10) || 0,
     cloud.countDate,
     today
   );
-  localStorage.setItem('actionCount', mergedCount);
-  localStorage.setItem('countDate', mergedDate);
+  localStorage.setItem(K.actionCount, mergedCount);
+  localStorage.setItem(K.countDate, mergedDate);
 
   // customTasks: merge, deduplicate by task+date
   const mergedTasks = mergeCustomTasks(
-    parseJSON(localStorage.getItem('customTasks')) || [],
+    parseJSON(localStorage.getItem(K.customTasks)) || [],
     parseJSON(cloud.customTasks) || []
   );
-  localStorage.setItem('customTasks', JSON.stringify(mergedTasks));
+  localStorage.setItem(K.customTasks, JSON.stringify(mergedTasks));
 
   document.dispatchEvent(new CustomEvent('syncdown-complete'));
 }
 
 // Retry any pending sync when connectivity is restored.
 window.addEventListener('online', () => {
-  if (localStorage.getItem('syncPending') === 'true') {
+  if (localStorage.getItem(K.syncPending) === 'true') {
     syncUp();
   }
 });

@@ -48,5 +48,6 @@ Tests use [Vitest](https://vitest.dev/) and run in Node — no browser required.
 - Related elements are grouped into named wrappers: `#streak-display` (streak pill, dots, hint, best), `#action-selector` (category nav, action list, message), `#counter-controls` (count, button, gate hint)
 - Custom tasks are stored as `{ task, date }` objects; `CustomTaskManager.load()` migrates any legacy plain-string entries to the object format on first load, ensuring they survive cross-device sync
 - Pure logic (`parseJSON`, `calculateStreak`, `isMilestone`, `STREAK_MILESTONES`, and the five sync merge functions) lives in `lib.js`, an ES module loaded before `script.js`; it exports named functions for tests and exposes them on `window` for the non-module `script.js`; `sync.js` imports directly from `lib.js`
+- All localStorage key strings are defined once in `STORAGE_KEYS` (exported from `lib.js`); `script.js` and `sync.js` reference `K.ecoAction` etc. rather than bare strings, so a rename or new key is made in one place and `resetApp()` clears all keys automatically via `Object.values(K)`
 - All behaviour is in `lib.js`, `script.js`, `auth.js`, and `sync.js`; no inline event handlers in HTML
 - The service worker caches all five scripts (`lib.js`, `script.js`, `auth.js`, `sync.js`, `supabase-client.js`) plus static assets for offline-first loading
