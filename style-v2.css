@@ -309,7 +309,7 @@ h2 {
 
 /* Suppress the real (empty) dots and streak pill while preview is showing */
 #main-content[data-authed="false"] #streak-history { display: none; }
-#main-content[data-authed="false"] #streak { display: none !important; }
+#main-content[data-authed="false"] #streak { display: none; }
 
 .streak-preview-dots {
   display: flex;
@@ -539,9 +539,6 @@ h2 {
   color: #2e7d32;
   text-decoration: underline;
 }
-button {
-  font-weight: 600;
-}
 
 /* 🔔 Reminder Button */
 #reminder-btn {
@@ -607,9 +604,6 @@ button {
   align-items: center;
   justify-content: center;
   z-index: 100;
-}
-#share-overlay[hidden] {
-  display: none;
 }
 #share-card {
   background: #fff;

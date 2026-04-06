@@ -4,14 +4,6 @@
 //   window.setupAuth  — called by initUI(); defined in auth.js
 //   window.sync       — { syncUp, syncDown }; defined in sync.js
 //   window.resetApp   — called by auth.js on sign-out; defined below
-function parseJSON(value, fallback = null) {
-  try {
-    return JSON.parse(value);
-  } catch {
-    return fallback;
-  }
-}
-
 function setCounterHint(disabled) {
   const hint = document.getElementById('counter-gate-hint');
   if (hint) hint.hidden = !disabled;
@@ -38,18 +30,6 @@ function showNudge() {
   }
 }
 
-function calculateStreak(previous, today) {
-  if (!previous || !previous.date) {
-    return 1;
-  }
-
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate()-1);
-
-  return previous.date === yesterday.toDateString() ? (previous.streak ?? 1) + 1 : 1;
-}
-
-
 function setupDateDisplay() {
   const dateElement = document.getElementById('date');
   if (!dateElement) { return; 
@@ -74,12 +54,6 @@ function updateStreakDisplay(streak, done) {
     ? `${streak}-day streak!`
     : `${streak}-day streak — keep it going!`;
   el.hidden = false;
-}
-
-const STREAK_MILESTONES = [3, 7, 14, 30];
-
-function isMilestone(streak) {
-  return STREAK_MILESTONES.includes(streak);
 }
 
 function showShareCard(streak) {
@@ -499,8 +473,15 @@ const CustomTaskManager = {
   },
 
   load() {
-    const saved = parseJSON(localStorage.getItem(this.storageKey)) || [];
+    const raw = parseJSON(localStorage.getItem(this.storageKey)) || [];
     const today = new Date().toDateString();
+
+    // Migrate legacy plain-string entries to { task, date } objects so they
+    // survive cross-device sync (the merge path drops bare strings).
+    const saved = raw.map(e => typeof e === 'string' ? { task: e, date: today } : e);
+    if (saved.some((e, i) => e !== raw[i])) {
+      localStorage.setItem(this.storageKey, JSON.stringify(saved));
+    }
 
     const todayEntries = saved.filter(e => typeof e === 'string' || e.date === today);
     const pastEntries = saved.filter(e => typeof e !== 'string' && e.date !== today);

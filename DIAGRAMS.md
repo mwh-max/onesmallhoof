@@ -8,15 +8,17 @@
 graph TD
     Browser["Browser / PWA"]
     LS["localStorage"]
-    SW["Service Worker\n(cache-first)"]
+    SW["Service Worker\n(cache-first)\ncaches: lib.js, script.js,\nauth.js, sync.js,\nsupabase-client.js + assets"]
     SB["Supabase\n(auth + user_data table)"]
     RS["Resend\n(magic link emails)"]
+    LIB["lib.js\n(parseJSON, calculateStreak,\nisMilestone — pure logic)"]
 
     Browser -->|reads/writes| LS
     Browser -->|asset requests| SW
     Browser <-->|auth + data API| SB
     SB -->|sends email via| RS
     RS -->|magic link| Browser
+    LIB -->|window globals| Browser
 ```
 
 ---
@@ -86,11 +88,11 @@ flowchart TD
     C -->|no row| D[syncUp instead]
     C -->|row found| E[Merge cloud → local]
 
-    E --> E1["ecoAction:\nkeep whichever has higher streak"]
-    E --> E2["ecoHistory:\nmerge by date, deduplicate, keep last 30"]
-    E --> E3["longestStreak:\ntake max of local and cloud"]
-    E --> E4["actionCount:\ncloud wins only if same day and higher"]
-    E --> E5["customTasks:\nmerge deduplicated by task + date"]
+    E --> E1["lib.js: mergeEcoAction\nkeep whichever has higher streak"]
+    E --> E2["lib.js: mergeEcoHistory\nmerge by date, deduplicate, keep last 30"]
+    E --> E3["lib.js: mergeLongestStreak\ntake max of local and cloud"]
+    E --> E4["lib.js: mergeActionCount\ncloud wins only if same day and higher"]
+    E --> E5["lib.js: mergeCustomTasks\nmerge deduplicated by task + date"]
 
     E1 & E2 & E3 & E4 & E5 --> F[Write merged data to localStorage]
     F --> G[Dispatch syncdown-complete event]
@@ -118,7 +120,7 @@ flowchart TD
 
     G([Action item click\n#action-list]) --> H{Signed in?}
     H -->|No| N
-    H -->|Yes| I[calculateStreak\nagainst yesterday's date]
+    H -->|Yes| I["lib.js: calculateStreak\npreserves streak if same day,\nincrements if yesterday,\nresets to 1 otherwise"]
     I --> J[Save ecoAction to localStorage\naction + date + streak]
     J --> K[Append to ecoHistory\nmax 30 entries]
     K --> L{New personal best?}
@@ -126,7 +128,7 @@ flowchart TD
     L -->|No| O
     M --> O[updateStreakDisplay + renderStreakDots\nupdates #streak-display]
     O --> P[syncUp]
-    P --> Q{Streak is milestone?\n3 / 7 / 14 / 30}
+    P --> Q{lib.js: isMilestone?\n3 / 7 / 14 / 30}
     Q -->|Yes| R[showShareCard]
     Q -->|No| S([Done])
 ```
@@ -137,10 +139,15 @@ flowchart TD
 
 ```mermaid
 flowchart TD
+    LOAD([Page load:\nCustomTaskManager.load]) --> MIG{Any legacy\nplain-string entries?}
+    MIG -->|Yes| UPG["Upgrade to { task, date }\nwrite back to localStorage"]
+    MIG -->|No| RENDER[Render today's tasks]
+    UPG --> RENDER
+
     A([Enter key in\ncustom task input]) --> B{Signed in?}
     B -->|No| N[showNudge]
     B -->|Yes| C[CustomTaskManager.add]
-    C --> D[Append to customTasks in localStorage]
+    C --> D["Append { task, date } to\ncustomTasks in localStorage"]
     D --> E[Render in userTaskList]
     E --> F[syncUp]
 
