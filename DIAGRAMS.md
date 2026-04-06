@@ -120,7 +120,7 @@ flowchart TD
 
     G([Action item click\n#action-list]) --> H{Signed in?}
     H -->|No| N
-    H -->|Yes| I[lib.js: calculateStreak\nagainst yesterday's date]
+    H -->|Yes| I["lib.js: calculateStreak\npreserves streak if same day,\nincrements if yesterday,\nresets to 1 otherwise"]
     I --> J[Save ecoAction to localStorage\naction + date + streak]
     J --> K[Append to ecoHistory\nmax 30 entries]
     K --> L{New personal best?}

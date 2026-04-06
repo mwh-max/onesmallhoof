@@ -6,7 +6,7 @@ Live at **[onesmallhoof.com](https://onesmallhoof.com)**. Made in Lexington, KY 
 
 ## Features
 
-- **Daily eco-action tracker** — choose from a curated list of actions across four categories (home, travel, food, community); one pick per day
+- **Daily eco-action tracker** — choose from a curated list of actions across four categories (home, travel, food, community); one pick logged per day; re-picking on the same day preserves the current streak
 - **Streak tracking** — current streak displayed with a 7-day dot history and a personal best counter; first-time users see a hint until their first action is logged
 - **Milestone share card** — at 3, 7, 14, and 30-day streaks, a share card appears with a pre-written message and link; uses the Web Share API with a clipboard fallback; keyboard focus is trapped within the overlay while open (Tab/Shift+Tab cycles between buttons, Escape dismisses)
 - **Custom task logger** — add your own eco-actions via keyboard (Enter to submit)

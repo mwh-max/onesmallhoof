@@ -65,10 +65,8 @@ describe('calculateStreak', () => {
     expect(calculateStreak({ date: twoDaysAgoStr, streak: 5 }, today)).toBe(1);
   });
 
-  it('resets to 1 when previous date is today (same-day re-pick)', () => {
-    // Selecting a different action on the same day resets streak to 1.
-    // This is the current behaviour — a known edge case.
-    expect(calculateStreak({ date: todayStr, streak: 3 }, today)).toBe(1);
+  it('preserves streak on same-day re-pick', () => {
+    expect(calculateStreak({ date: todayStr, streak: 3 }, today)).toBe(3);
   });
 
   it('falls back to streak of 2 when previous.streak is missing', () => {

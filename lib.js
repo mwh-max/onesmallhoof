@@ -14,6 +14,11 @@ export function calculateStreak(previous, today) {
     return 1;
   }
 
+  const todayStr = new Date(today).toDateString();
+  if (previous.date === todayStr) {
+    return previous.streak ?? 1;
+  }
+
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
