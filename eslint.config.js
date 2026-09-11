@@ -3,7 +3,7 @@ export default [
     files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 'latest',
-      sourceType: 'script'
+      sourceType: 'module'
     },
     linterOptions: {
       reportUnusedDisableDirectives: true
@@ -21,6 +21,14 @@ export default [
       'arrow-spacing': ['error', { before: true, after: true }],
       'space-before-blocks': ['error', 'always'],
       'comma-dangle': ['error', 'never']
+    }
+  },
+  {
+    // sw.js is registered as a classic worker script (no `{ type: 'module' }`
+    // option in navigator.serviceWorker.register), so it can't use import/export.
+    files: ['sw.js'],
+    languageOptions: {
+      sourceType: 'script'
     }
   }
 ];
