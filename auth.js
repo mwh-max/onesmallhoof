@@ -1,7 +1,7 @@
 // Cross-script dependencies:
 //   window.db        — Supabase client, set by supabase-client.js (module)
 //   window.sync      — { syncUp, syncDown }, set by sync.js (module)
-//   window.resetApp  — clears localStorage and resets UI, set by script.js (defer)
+//   window.resetApp  — clears localStorage and resets UI, set by script.js (module)
 //   window.triggerToast — exposed below so sync.js can show error toasts
 
 function triggerToast(message, isError = false) {

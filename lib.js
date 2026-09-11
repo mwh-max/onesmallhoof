@@ -1,5 +1,4 @@
-// Pure logic extracted from script.js for testability.
-// Exported as ES module for tests; also exposed on window for script.js (non-module).
+// Pure logic used across the app's feature modules, extracted here for testability.
 
 export function parseJSON(value, fallback = null) {
   try {
@@ -78,12 +77,4 @@ export function mergeCustomTasks(localTasks, cloudTasks) {
     if (t?.task && t?.date) map.set(`${t.task}|${t.date}`, t);
   });
   return [...map.values()];
-}
-
-// Expose as globals so the non-module script.js can call them directly.
-if (typeof window !== 'undefined') {
-  window.parseJSON = parseJSON;
-  window.calculateStreak = calculateStreak;
-  window.isMilestone = isMilestone;
-  window.STREAK_MILESTONES = STREAK_MILESTONES;
 }
