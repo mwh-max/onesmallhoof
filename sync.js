@@ -4,7 +4,7 @@ import {
   mergeEcoHistory,
   mergeLongestStreak,
   mergeActionCount,
-  mergeCustomTasks,
+  mergeCustomTasks
 } from './lib.js';
 
 // window.db is the Supabase client set by supabase-client.js before this module runs.
@@ -20,7 +20,7 @@ async function syncUp() {
   }
 
   const user = await getCurrentUser();
-  if (!user) return;
+  if (!user) { return; }
 
   const today = new Date().toDateString();
   const storedDate = localStorage.getItem('countDate');
@@ -31,7 +31,7 @@ async function syncUp() {
     customTasks:   localStorage.getItem('customTasks'),
     longestStreak: localStorage.getItem('longestStreak'),
     actionCount:   storedDate === today ? localStorage.getItem('actionCount') : '0',
-    countDate:     storedDate,
+    countDate:     storedDate
   };
 
   const { error } = await window.db.from('user_data').upsert(
@@ -41,7 +41,7 @@ async function syncUp() {
 
   if (error) {
     localStorage.setItem('syncPending', 'true');
-    if (window.triggerToast) window.triggerToast('Could not save — will retry when reconnected.', true);
+    if (window.triggerToast) { window.triggerToast('Could not save — will retry when reconnected.', true); }
     return;
   }
 
@@ -56,7 +56,7 @@ async function syncDown() {
   }
 
   const user = await getCurrentUser();
-  if (!user) return;
+  if (!user) { return; }
 
   const { data: row, error } = await window.db
     .from('user_data')
@@ -66,7 +66,7 @@ async function syncDown() {
 
   if (error) {
     localStorage.setItem('syncPending', 'true');
-    if (window.triggerToast) window.triggerToast('Could not load your data — will retry when reconnected.', true);
+    if (window.triggerToast) { window.triggerToast('Could not load your data — will retry when reconnected.', true); }
     document.dispatchEvent(new CustomEvent('syncdown-complete'));
     return;
   }
@@ -84,7 +84,7 @@ async function syncDown() {
     parseJSON(localStorage.getItem('ecoAction')),
     parseJSON(cloud.ecoAction)
   );
-  if (winningAction) localStorage.setItem('ecoAction', JSON.stringify(winningAction));
+  if (winningAction) { localStorage.setItem('ecoAction', JSON.stringify(winningAction)); }
 
   // ecoHistory: merge by date, keep latest 30
   const mergedHistory = mergeEcoHistory(

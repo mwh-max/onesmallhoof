@@ -8,7 +8,7 @@ import {
   mergeEcoHistory,
   mergeLongestStreak,
   mergeActionCount,
-  mergeCustomTasks,
+  mergeCustomTasks
 } from './lib.js';
 
 // ─── parseJSON ───────────────────────────────────────────────────────────────
@@ -143,7 +143,7 @@ describe('mergeEcoHistory', () => {
     expect(result.map(e => e.date)).toEqual([
       'Mon Apr 06 2026',
       'Tue Apr 07 2026',
-      'Wed Apr 08 2026',
+      'Wed Apr 08 2026'
     ]);
   });
 

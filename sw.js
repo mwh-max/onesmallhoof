@@ -1,10 +1,18 @@
-const CACHE = 'onesmallhoof-v6';
+const CACHE = 'onesmallhoof-v7';
 const ASSETS = [
   './',
   './index.html',
   './style-v2.css',
   './lib.js',
   './script.js',
+  './ui-helpers.js',
+  './date-display.js',
+  './streak-display.js',
+  './share-card.js',
+  './eco-actions.js',
+  './count-tracker.js',
+  './custom-tasks.js',
+  './notifications.js',
   './supabase-client.js',
   './auth.js',
   './sync.js',

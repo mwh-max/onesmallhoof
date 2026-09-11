@@ -1,7 +1,7 @@
 // Cross-script dependencies:
 //   window.db        — Supabase client, set by supabase-client.js (module)
 //   window.sync      — { syncUp, syncDown }, set by sync.js (module)
-//   window.resetApp  — clears localStorage and resets UI, set by script.js (defer)
+//   window.resetApp  — clears localStorage and resets UI, set by script.js (module)
 //   window.triggerToast — exposed below so sync.js can show error toasts
 
 function triggerToast(message, isError = false) {
@@ -36,29 +36,29 @@ function setupAuth() {
 
   function setCustomTaskInput(enabled) {
     const input = document.getElementById('customTask');
-    if (input) input.disabled = !enabled;
+    if (input) { input.disabled = !enabled; }
   }
 
   function showSignedIn(email, toast = false) {
     form.hidden = true;
     signedInInfo.hidden = false;
     const intro = document.getElementById('sign-in-intro');
-    if (intro) intro.hidden = true;
+    if (intro) { intro.hidden = true; }
     mainContent.dataset.authed = 'true';
     setCustomTaskInput(true);
     const nudge = document.getElementById('sign-in-nudge');
-    if (nudge) nudge.hidden = true;
+    if (nudge) { nudge.hidden = true; }
     userEmailEl.textContent = email;
     authMessage.textContent = '';
-    if (toast) triggerToast("You're signed in. Start your streak!");
-    if (window.sync) window.sync.syncDown();
+    if (toast) { triggerToast('You\'re signed in. Start your streak!'); }
+    if (window.sync) { window.sync.syncDown(); }
   }
 
   function showSignedOut() {
     form.hidden = false;
     signedInInfo.hidden = true;
     const intro = document.getElementById('sign-in-intro');
-    if (intro) intro.hidden = false;
+    if (intro) { intro.hidden = false; }
     mainContent.dataset.authed = 'false';
     setCustomTaskInput(false);
   }
@@ -91,7 +91,7 @@ function setupAuth() {
 
     const { error } = await db.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: 'https://onesmallhoof.com/' },
+      options: { emailRedirectTo: 'https://onesmallhoof.com/' }
     });
 
     if (error) {
@@ -112,7 +112,7 @@ function setupAuth() {
       // onAuthStateChange fires during signOut() and calls showSignedOut() automatically.
       // resetApp() is called here (not in showSignedOut) because it should only run
       // on an explicit sign-out action, not on every auth state change.
-      if (window.resetApp) window.resetApp();
+      if (window.resetApp) { window.resetApp(); }
     }
     signOutBtn.disabled = false;
   });
@@ -121,7 +121,7 @@ function setupAuth() {
     const confirmed = window.confirm(
       'This will permanently delete your account and all your data. This cannot be undone. Are you sure?'
     );
-    if (!confirmed) return;
+    if (!confirmed) { return; }
 
     deleteAccountBtn.disabled = true;
     deleteAccountBtn.textContent = 'deleting...';
@@ -134,7 +134,7 @@ function setupAuth() {
       return;
     }
 
-    if (window.resetApp) window.resetApp();
+    if (window.resetApp) { window.resetApp(); }
     await db.auth.signOut();
     showSignedOut();
   });
