@@ -50,7 +50,7 @@ export function setupNotificationReminder() {
     if ((!saved || saved.date !== today) && lastShown !== today) {
       setTimeout(() => {
         new Notification('One Small Hoof', {
-          body: "Don't forget your daily eco-action!",
+          body: 'Don\'t forget your daily eco-action!',
           icon: 'images/horseshoe-2.svg'
         });
         localStorage.setItem('notificationShownDate', today);

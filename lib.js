@@ -37,7 +37,7 @@ export function isMilestone(streak) {
 // Returns the action object that should be kept. Cloud wins only when its
 // streak is strictly higher than local's.
 export function mergeEcoAction(localAction, cloudAction) {
-  if (!cloudAction) return localAction;
+  if (!cloudAction) { return localAction; }
   const localStreak = localAction?.streak ?? 0;
   const cloudStreak = cloudAction?.streak ?? 0;
   return cloudStreak > localStreak ? cloudAction : localAction;
@@ -48,7 +48,7 @@ export function mergeEcoAction(localAction, cloudAction) {
 export function mergeEcoHistory(localHistory, cloudHistory) {
   const map = new Map();
   [...localHistory, ...cloudHistory].forEach(e => {
-    if (e?.date) map.set(e.date, e);
+    if (e?.date) { map.set(e.date, e); }
   });
   return Array.from(map.values())
     .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -74,7 +74,7 @@ export function mergeActionCount(localCount, localDate, cloudCount, cloudDate, t
 export function mergeCustomTasks(localTasks, cloudTasks) {
   const map = new Map();
   [...localTasks, ...cloudTasks].forEach(t => {
-    if (t?.task && t?.date) map.set(`${t.task}|${t.date}`, t);
+    if (t?.task && t?.date) { map.set(`${t.task}|${t.date}`, t); }
   });
   return [...map.values()];
 }

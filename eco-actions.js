@@ -77,7 +77,7 @@ export function renderActionList(actions, actionList, message, saved, todayKey) 
       updateStreakDisplay(streak, true);
       actionList.innerHTML = '';
       renderStreakDots();
-      if (window.sync) window.sync.syncUp();
+      if (window.sync) { window.sync.syncUp(); }
 
       const categoryNav = document.getElementById('category-nav');
       if (categoryNav) {

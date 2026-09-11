@@ -46,7 +46,7 @@ export function showShareCard(streak) {
   const lastFocusable = focusableEls[focusableEls.length - 1];
 
   const trapFocus = (e) => {
-    if (e.key !== 'Tab') return;
+    if (e.key !== 'Tab') { return; }
     if (e.shiftKey) {
       if (document.activeElement === firstFocusable) {
         e.preventDefault();
@@ -62,7 +62,7 @@ export function showShareCard(streak) {
   overlay.addEventListener('keydown', trapFocus);
 
   const onKeydown = (e) => {
-    if (e.key === 'Escape') dismiss();
+    if (e.key === 'Escape') { dismiss(); }
   };
 
   const dismiss = () => {

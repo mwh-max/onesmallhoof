@@ -14,7 +14,7 @@ export const CustomTaskManager = {
     saved.push(entry);
     localStorage.setItem(this.storageKey, JSON.stringify(saved));
     this.render(entry);
-    if (window.sync) window.sync.syncUp();
+    if (window.sync) { window.sync.syncUp(); }
   },
 
   render(entry) {
@@ -50,7 +50,7 @@ export const CustomTaskManager = {
     });
 
     const summary = details.querySelector('summary');
-    if (summary) summary.textContent = `View history (${entries.length} task${entries.length === 1 ? '' : 's'})`;
+    if (summary) { summary.textContent = `View history (${entries.length} task${entries.length === 1 ? '' : 's'})`; }
 
     dateOrder.reverse().forEach(date => {
       let label = date;
@@ -59,7 +59,7 @@ export const CustomTaskManager = {
         if (!isNaN(parsed)) {
           label = parsed.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
         }
-      } catch (_) {}
+      } catch {}
 
       const heading = document.createElement('p');
       heading.className = 'history-date';

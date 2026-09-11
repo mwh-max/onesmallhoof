@@ -50,7 +50,7 @@ export function setupStreakHistory() {
 
   const history = parseJSON(localStorage.getItem('ecoHistory')) || [];
   const dotsHint = document.getElementById('streak-dots-hint');
-  if (dotsHint) dotsHint.hidden = history.length > 0;
+  if (dotsHint) { dotsHint.hidden = history.length > 0; }
 
   const longest = parseInt(localStorage.getItem('longestStreak'), 10) || 0;
   const el = document.getElementById('longest-streak');

@@ -37,7 +37,7 @@ export function setupCountTracker() {
     const ecoAction = parseJSON(localStorage.getItem('ecoAction'));
 
     if (!ecoAction || ecoAction.date !== today) {
-      counterMessage.textContent = "Pick today's eco-action first — then count anything extra you do!";
+      counterMessage.textContent = 'Pick today\'s eco-action first — then count anything extra you do!';
       setTimeout(() => { counterMessage.textContent = ''; }, 4000);
       return;
     }
@@ -46,6 +46,6 @@ export function setupCountTracker() {
     localStorage.setItem('actionCount', count);
     countElement.textContent = `Total actions: ${count}`;
     counterMessage.textContent = '';
-    if (window.sync) window.sync.syncUp();
+    if (window.sync) { window.sync.syncUp(); }
   });
 }
